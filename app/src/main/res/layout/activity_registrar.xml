@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="751dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Crear Cuenta"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="731dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Por favor ingrese su infromación, no compartimos información con terceros. También puede continuar como anónimo" />
+
+    <EditText
+        android:id="@+id/regNombre"
+        android:textSize="20dp"
+        android:layout_width="340dp"
+        android:layout_height="686dp"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:hint="Nombre"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/regMail"
+        android:textSize="20dp"
+        android:layout_width="367dp"
+        android:layout_height="686dp"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:hint="Correo"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+
+        android:layout_width="367dp"
+        android:layout_height="686dp"
+        android:layout_weight="1"
+        android:textSize="20dp"
+        android:hint="Contraseña"
+        android:layout_margin="20dp"
+        android:id="@+id/regPass"
+        android:inputType="textPassword"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnRegRegistro"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="94dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="98dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="91dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_rounded_gray"
+            android:text="Registrar"
+            android:textColor="#ffff"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnRegAnonimo"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="96dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="96dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="38dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_rounded_gray2"
+            android:text="Continuar como anónimo"
+            android:textColor="#000"
+            android:textSize="13dp" />
+
+        <Button
+            android:id="@+id/btnRegLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_above="@+id/btnRegAnonimo"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="94dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="95dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="-3dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_rounded_white"
+            android:text="TEngo una cuenta"
+            android:textColor="#000"
+            android:textSize="13dp" />
+    </RelativeLayout>
+
+
+</LinearLayout>
