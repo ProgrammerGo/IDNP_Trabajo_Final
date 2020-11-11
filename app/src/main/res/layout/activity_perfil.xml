@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/perWelcome"
+        android:layout_width="match_parent"
+        android:layout_height="751dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Hola Usuario"
+        android:textSize="28dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="620dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Aquí puedes ver tu información personal, nosotros no vendemos tu infromación a terceros y tenemos en cuenta tu privacidad" />
+
+    <TextView
+        android:id="@+id/regNombre"
+        android:textSize="20dp"
+        android:layout_width="340dp"
+        android:layout_height="560dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:textStyle="bold"
+        android:text="Información personal"
+        android:inputType="text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+
+            android:textSize="20dp"
+            android:layout_width="5dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:hint="Nombre:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/perNom"
+            android:layout_width="110dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_margin="20dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+
+            android:textSize="20dp"
+            android:layout_width="5dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:hint="Correo:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/perMail"
+            android:layout_width="110dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_margin="20dp"
+            />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnPerEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="96dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="96dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="144dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_rounded_gray"
+            android:text="Editar Usuario"
+            android:textColor="#ffff"
+            android:textSize="13dp" />
+
+        <Button
+            android:id="@+id/btnPerLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="96dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="96dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="68dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_rounded_white"
+            android:text="Cerrar Sesión"
+            android:textColor="#000"
+            android:textSize="13dp" />
+    </RelativeLayout>
+
+
+</LinearLayout>

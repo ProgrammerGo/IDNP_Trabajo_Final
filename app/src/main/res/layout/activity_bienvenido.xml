@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@mipmap/runnning">
+
+    <Button
+        android:id="@+id/btnEmpezar"
+        android:layout_width="221dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="95dp"
+        android:layout_marginBottom="49dp"
+        android:text="Empezar"
+        android:textSize="20dp"
+        android:textColor="#ffff"
+        android:background="@drawable/btn_rounded_gray_border"
+        android:layout_marginStart="95dp" />
+</RelativeLayout>
+
