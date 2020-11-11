@@ -1,14 +1,14 @@
-package com.example.proyecto_final.ui.notifications;
+package com.example.proyecto_final.viewmodels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+public class EstadisticasViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public EstadisticasViewModel() {
         mText = new MutableLiveData<>();
 
     }

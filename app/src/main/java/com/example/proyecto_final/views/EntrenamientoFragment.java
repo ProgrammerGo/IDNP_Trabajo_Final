@@ -1,4 +1,4 @@
-package com.example.proyecto_final.ui.notifications;
+package com.example.proyecto_final.views;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,18 +13,19 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.proyecto_final.R;
+import com.example.proyecto_final.viewmodels.EntrenamientoViewModel;
 
-public class NotificationsFragment extends Fragment {
+public class EntrenamientoFragment extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
+    private EntrenamientoViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        homeViewModel =
+                ViewModelProviders.of(this).get(EntrenamientoViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_entrenamiento, container, false);
+        final TextView textView = root.findViewById(R.id.text_entrenamiento);
+        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

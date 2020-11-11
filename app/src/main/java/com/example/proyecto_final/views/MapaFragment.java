@@ -1,4 +1,4 @@
-package com.example.proyecto_final.ui.home;
+package com.example.proyecto_final.views;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,18 +13,19 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.proyecto_final.R;
+import com.example.proyecto_final.viewmodels.MapaViewModel;
 
-public class HomeFragment extends Fragment {
+public class MapaFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private MapaViewModel dashboardViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        dashboardViewModel =
+                ViewModelProviders.of(this).get(MapaViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_mapa, container, false);
+        final TextView textView = root.findViewById(R.id.text_mapa);
+        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
