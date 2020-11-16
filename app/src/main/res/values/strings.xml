@@ -18,4 +18,12 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_perfil">PerfilActivity</string>
     <string name="title_activity_registar">RegistarActivity</string>
+
+    <!--Barra-->
+    <string name="title_entrenamiento" >Entrenar</string>
+    <string name="title_mapa">Mapa</string>
+    <string name="title_estadisticas">Estadisticas</string>
+    <string name="title_musica">Musica</string>
+    <string name="title_perfil">Mi perfil</string>
+    <string name="title_activity_caller">CallerActivity</string>
 </resources>

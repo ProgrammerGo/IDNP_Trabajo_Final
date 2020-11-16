@@ -1,4 +1,4 @@
-package com.idnp_trabajo_final.entiities;
+package com.idnp_trabajo_final.entities;
 
 public class Usuario {
     int id;

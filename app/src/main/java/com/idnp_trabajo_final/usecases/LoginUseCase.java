@@ -1,11 +1,7 @@
 package com.idnp_trabajo_final.usecases;
 
-import android.content.Intent;
-import android.util.Log;
-import android.widget.Toast;
-
 import com.idnp_trabajo_final.dao.daoUsuario;
-import com.idnp_trabajo_final.entiities.Usuario;
+import com.idnp_trabajo_final.entities.Usuario;
 
 
 public class LoginUseCase {

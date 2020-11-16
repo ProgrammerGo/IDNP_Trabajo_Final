@@ -4,14 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.idnp_trabajo_final.dao.daoUsuario;
-import com.idnp_trabajo_final.entiities.Usuario;
+import com.idnp_trabajo_final.entities.Usuario;
 
 public class PerfilActivity extends AppCompatActivity{
     private static final String TAG = PerfilActivity.class.getSimpleName();

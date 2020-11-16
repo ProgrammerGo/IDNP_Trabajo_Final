@@ -2,8 +2,6 @@ package com.idnp_trabajo_final.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -12,10 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.util.Log;
 
 import com.idnp_trabajo_final.dao.daoUsuario;
-import com.idnp_trabajo_final.entiities.Usuario;
 import com.idnp_trabajo_final.viewmodels.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
@@ -60,7 +56,9 @@ public class LoginActivity extends AppCompatActivity {
                 Toast toast=Toast.makeText(LoginActivity.this,text, Toast.LENGTH_SHORT);
                 toast.show();
                 if(idE!=-1){
-                    Intent i2= new Intent(LoginActivity.this,PerfilActivity.class);
+                    //Intent i2= new Intent(LoginActivity.this,PerfilActivity.class);
+                    Intent i2= new Intent(LoginActivity.this,CallerActivity.class);
+
                     i2.putExtra("Id",idE);
                     startActivity(i2);
                     finish();
@@ -87,7 +85,8 @@ public class LoginActivity extends AppCompatActivity {
                 Toast toast=Toast.makeText(LoginActivity.this,text, Toast.LENGTH_SHORT);
                 toast.show();
                 if(idE!=-1){
-                    Intent i2= new Intent(LoginActivity.this,PerfilActivity.class);
+                    //Intent i2= new Intent(LoginActivity.this,PerfilActivity.class);
+                    Intent i2= new Intent(LoginActivity.this,CallerActivity.class);
                     i2.putExtra("Id",idE);
                     startActivity(i2);
                     finish();

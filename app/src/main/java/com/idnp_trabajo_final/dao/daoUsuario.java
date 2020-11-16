@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.idnp_trabajo_final.entiities.Usuario;
+import com.idnp_trabajo_final.entities.Usuario;
 
 import java.util.ArrayList;
 

@@ -13,9 +13,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.idnp_trabajo_final.dao.daoUsuario;
-import com.idnp_trabajo_final.entiities.Usuario;
+import com.idnp_trabajo_final.entities.Usuario;
 import com.idnp_trabajo_final.viewmodels.EditarViewModel;
-import com.idnp_trabajo_final.viewmodels.RegistrarViewModel;
 
 public class EditarActivity extends AppCompatActivity {
     private static final String TAG = EditarActivity.class.getSimpleName();
@@ -76,8 +75,9 @@ public class EditarActivity extends AppCompatActivity {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i= new Intent(EditarActivity.this,LoginActivity.class);
+                Intent i= new Intent(EditarActivity.this,PerfilFragment.class);
                 startActivity(i);
+                finish();
             }
         });
         btnEliminar.setOnClickListener(new View.OnClickListener() {
