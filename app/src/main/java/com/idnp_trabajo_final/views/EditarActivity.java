@@ -58,7 +58,7 @@ public class EditarActivity extends AppCompatActivity {
                 Toast toast=Toast.makeText(EditarActivity.this,text, Toast.LENGTH_SHORT);
                 toast.show();
                 if(idE!=-1){
-                    Intent i2= new Intent(EditarActivity.this,PerfilActivity.class);
+                    Intent i2= new Intent(EditarActivity.this,CallerActivity.class);
                     i2.putExtra("Id",idE);
                     startActivity(i2);
                     finish();

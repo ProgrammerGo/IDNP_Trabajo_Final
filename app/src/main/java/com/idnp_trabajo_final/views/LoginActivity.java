@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.idnp_trabajo_final.dao.daoUsuario;
+import com.idnp_trabajo_final.utils.PreferenceUtilsLog;
 import com.idnp_trabajo_final.viewmodels.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
@@ -38,6 +39,11 @@ public class LoginActivity extends AppCompatActivity {
         btnIngresar=(Button)findViewById(R.id.btnLogIngresar);
         btnAnonimo=(Button)findViewById(R.id.btnLogAnonimo);
         btnRegistro=(Button)findViewById(R.id.btnLogRegistro);
+        PreferenceUtilsLog utils = new PreferenceUtilsLog();
+        if (utils.getId(this) != 0 ){
+            Intent intent = new Intent(LoginActivity.this, CallerActivity.class);
+            startActivity(intent);
+        }
         btnIngresar.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 /*
@@ -57,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                 toast.show();
                 if(idE!=-1){
                     //Intent i2= new Intent(LoginActivity.this,PerfilActivity.class);
+                    PreferenceUtilsLog.saveId(idE, LoginActivity.this);
                     Intent i2= new Intent(LoginActivity.this,CallerActivity.class);
 
                     i2.putExtra("Id",idE);

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.idnp_trabajo_final.dao.daoUsuario;
 import com.idnp_trabajo_final.entities.Usuario;
+import com.idnp_trabajo_final.utils.PreferenceUtilsLog;
 import com.idnp_trabajo_final.viewmodels.PerfilViewModel;
 
 public class PerfilFragment extends Fragment {
@@ -55,7 +56,13 @@ public class PerfilFragment extends Fragment {
         btnEdit=(Button)root.findViewById(R.id.btnPerEdit);
         btnLogout=(Button)root.findViewById(R.id.btnPerLogout);
         Bundle b=getActivity().getIntent().getExtras();
-        id=b.getInt("Id");
+        Intent intent = getActivity().getIntent();
+        if (intent.hasExtra("Id")){
+            id=b.getInt("Id");
+        }else{
+            int idAuto = PreferenceUtilsLog.getId(getActivity());
+            id=idAuto;
+        }
 
         dao=new daoUsuario(getActivity());
         u=dao.getUsuarioById(id);
@@ -65,6 +72,7 @@ public class PerfilFragment extends Fragment {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                PreferenceUtilsLog.saveId(0, getActivity());
                 Intent i= new Intent(getActivity(),LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();
