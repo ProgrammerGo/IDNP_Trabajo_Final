@@ -38,7 +38,7 @@ public class PerfilFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = ViewModelProviders.of(this).get(PerfilViewModel.class);
-        View root= inflater.inflate(R.layout.perfil_fragment, container, false);
+        View root= inflater.inflate(R.layout.fragment_perfil, container, false);
         configView(root);
         return root;
     }
@@ -49,31 +49,31 @@ public class PerfilFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(PerfilViewModel.class);
         // TODO: Use the ViewModel
     }
-    private void configView(View root){
-        textWelcome=(TextView)root.findViewById(R.id.perWelcome);
-        textNombre=(TextView)root.findViewById(R.id.perNom);
-        textMail=(TextView)root.findViewById(R.id.perMail);
-        btnEdit=(Button)root.findViewById(R.id.btnPerEdit);
-        btnLogout=(Button)root.findViewById(R.id.btnPerLogout);
-        Bundle b=getActivity().getIntent().getExtras();
+    private void configView(View root) {
+        textWelcome = (TextView) root.findViewById(R.id.perWelcome);
+        textNombre = (TextView) root.findViewById(R.id.perNom);
+        textMail = (TextView) root.findViewById(R.id.perMail);
+        btnEdit = (Button) root.findViewById(R.id.btnPerEdit);
+        btnLogout = (Button) root.findViewById(R.id.btnPerLogout);
+        Bundle b = getActivity().getIntent().getExtras();
         Intent intent = getActivity().getIntent();
-        if (intent.hasExtra("Id")){
-            id=b.getInt("Id");
-        }else{
+        if (intent.hasExtra("Id")) {
+            id = b.getInt("Id");
+        } else {
             int idAuto = PreferenceUtilsLog.getId(getActivity());
-            id=idAuto;
+            id = idAuto;
         }
 
-        dao=new daoUsuario(getActivity());
-        u=dao.getUsuarioById(id);
-        textWelcome.setText("Hola "+ u.getNombre());
+        dao = new daoUsuario(getActivity());
+        u = dao.getUsuarioById(id);
+        textWelcome.setText("Hola " + u.getNombre());
         textNombre.setText(u.getNombre());
         textMail.setText(u.getMail());
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PreferenceUtilsLog.saveId(0, getActivity());
-                Intent i= new Intent(getActivity(),LoginActivity.class);
+                Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();
             }
@@ -81,82 +81,12 @@ public class PerfilFragment extends Fragment {
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ia= new Intent(getActivity(),EditarActivity.class);
-                ia.putExtra("Id",id);
+                Intent ia = new Intent(getActivity(), EditarActivity.class);
+                ia.putExtra("Id", id);
                 startActivity(ia);
                 getActivity().finish();
             }
         });
     }
-    /*
-    public class EntrenamientoFragment extends Fragment {
-
-    private EntrenamientoViewModel homeViewModel;
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(EntrenamientoViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_entrenamiento, container, false);
-        final TextView textView = root.findViewById(R.id.text_entrenamiento);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
-    }
-}
-     */
-
-    /*
-        private static final String TAG = PerfilActivity.class.getSimpleName();
-    Button btnEdit, btnLogout;
-    TextView textWelcome, textNombre, textMail;
-    int id=0;
-    Usuario u;
-    daoUsuario dao;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_perfil);
-        configView();
-
-    }
-    private void configView(){
-        textWelcome=(TextView)findViewById(R.id.perWelcome);
-        textNombre=(TextView)findViewById(R.id.perNom);
-        textMail=(TextView)findViewById(R.id.perMail);
-        btnEdit=(Button)findViewById(R.id.btnPerEdit);
-        btnLogout=(Button)findViewById(R.id.btnPerLogout);
-        Bundle b=getIntent().getExtras();
-        id=b.getInt("Id");
-
-        dao=new daoUsuario(this);
-        u=dao.getUsuarioById(id);
-        textWelcome.setText("Hola "+ u.getNombre());
-        textNombre.setText(u.getNombre());
-        textMail.setText(u.getMail());
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i= new Intent(PerfilActivity.this,LoginActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent ia= new Intent(PerfilActivity.this,EditarActivity.class);
-                ia.putExtra("Id",id);
-                startActivity(ia);
-                finish();
-            }
-        });
-    }
-
-     */
 
 }

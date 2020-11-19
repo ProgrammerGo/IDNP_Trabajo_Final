@@ -9,37 +9,27 @@
         android:id="@+id/navigation_entrenar"
         android:name="com.idnp_trabajo_final.views.PerfilFragment"
         android:label="@string/title_entrenamiento"
-        tools:layout="@layout/perfil_fragment" />
+        tools:layout="@layout/fragment_perfil" />
 
     <fragment
         android:id="@+id/navigation_mapa"
         android:name="com.idnp_trabajo_final.views.PerfilFragment"
         android:label="@string/title_mapa"
-        tools:layout="@layout/perfil_fragment" />
+        tools:layout="@layout/fragment_perfil" />
 
     <fragment
         android:id="@+id/navigation_estadisticas"
-        android:name="com.idnp_trabajo_final.views.PerfilFragment"
+        android:name="com.idnp_trabajo_final.views.EstadisticasFragment"
         android:label="@string/title_estadisticas"
-        tools:layout="@layout/perfil_fragment" />
+        tools:layout="@layout/fragment_estadisticas" />
     <fragment
         android:id="@+id/navigation_musica"
         android:name="com.idnp_trabajo_final.views.PerfilFragment"
         android:label="@string/title_musica"
-        tools:layout="@layout/perfil_fragment" />
+        tools:layout="@layout/fragment_perfil" />
     <fragment
         android:id="@+id/navigation_perfil"
         android:name="com.idnp_trabajo_final.views.PerfilFragment"
         android:label="@string/title_perfil"
-        tools:layout="@layout/perfil_fragment" />
-    <!--<fragment
-        android:id="@+id/navigation_musica"
-        android:name="com.example.proyecto_final.ui.musica.MusicaFragment"
-        android:label="@string/title_musica"
-        tools:layout="@layout/fragment_musica" />
-    <fragment
-        android:id="@+id/navigation_perfil"
-        android:name="com.example.proyecto_final.ui.perfil.PerfilFragment"
-        android:label="@string/title_perfil"
-        tools:layout="@layout/fragment_perfil" />-->
+        tools:layout="@layout/fragment_perfil" />
 </navigation>
