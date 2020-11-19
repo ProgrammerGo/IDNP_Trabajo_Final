@@ -46,23 +46,11 @@ public class LoginActivity extends AppCompatActivity {
         }
         btnIngresar.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                /*
-                viewModel.login(dao,logMail.getText().toString(),logPass.getText().toString());
-                Toast toast=Toast.makeText(LoginActivity.this,text, Toast.LENGTH_SHORT);
-                toast.show();
-                if(text.equals("Bienvenido")){
-                    Intent i2 = new Intent(LoginActivity.this,PerfilActivity.class);
-                    int a = viewModel.login(dao,logMail.getText().toString(),logPass.getText().toString());
-                    i2.putExtra("Id",a);
-                    startActivity(i2);
-                    finish();
-                }
-                 */
                 int idE= viewModel.login(dao,logMail.getText().toString(),logPass.getText().toString());
                 Toast toast=Toast.makeText(LoginActivity.this,text, Toast.LENGTH_SHORT);
                 toast.show();
                 if(idE!=-1){
-                    //Intent i2= new Intent(LoginActivity.this,PerfilActivity.class);
+
                     PreferenceUtilsLog.saveId(idE, LoginActivity.this);
                     Intent i2= new Intent(LoginActivity.this,CallerActivity.class);
 
