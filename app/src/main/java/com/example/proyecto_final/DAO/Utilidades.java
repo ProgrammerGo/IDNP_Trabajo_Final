@@ -2,15 +2,10 @@ package com.example.proyecto_final.DAO;
 
 public class Utilidades {
 
-    public static final String TABLA_MODO= "MODO";
-    public static final String CAMPO_ID= "id";
-    public static final String CAMPO_NOMBRE= "nombre";
-    public static final String CAMPO_DESCRIPCION= "descripcion";
-
-    public static final String  CREAR_TABLA_MODO="CREATE TABLE " +
-            ""+TABLA_MODO+" ("+CAMPO_ID+" " +
-            "INTEGER, "+CAMPO_NOMBRE+" TEXT,"+CAMPO_DESCRIPCION+" TEXT)";
-    public static final String UPDATE_TABLE_MODO= "DROP TABLE IF EXISTS MODO";
+    public static final String UPDATE_TABLE_COORDENADA= "DROP TABLE IF EXISTS coordenada";
+    public static final String UPDATE_TABLE_MODO= "DROP TABLE IF EXISTS modo";
+    public static final String create_tablaModo="create table IF NOT EXISTS modo(id integer primary key autoincrement, nombre text, descripcion text)";
+    public static final String create_tablaCoordenada="create table IF NOT EXISTS coordenada(id integer primary key autoincrement, latitud  real, longitud real, fecha text)";
 
 }
 

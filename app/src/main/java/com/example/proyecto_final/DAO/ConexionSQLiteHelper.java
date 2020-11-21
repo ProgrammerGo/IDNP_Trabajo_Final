@@ -17,26 +17,16 @@ public class ConexionSQLiteHelper  extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(Utilidades.CREAR_TABLA_MODO);
-
+        db.execSQL(Utilidades.create_tablaModo);
+        db.execSQL(Utilidades.create_tablaCoordenada);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(Utilidades.UPDATE_TABLE_MODO );
+       db.execSQL(Utilidades.UPDATE_TABLE_COORDENADA );
         onCreate(db);
 
     }
-    public void config(){
-        SQLiteDatabase db= this.getWritableDatabase();
-        ContentValues values= new ContentValues();
-       /* values.put(Utilidades.CAMPO_ID,"1");
-        values.put(Utilidades.CAMPO_NOMBRE,"Caminata");
-        values.put(Utilidades.CAMPO_DESCRIPCION,"Accion de caminar");
-        Long idResultante= db.insert(Utilidades.TABLA_MODO, Utilidades.CAMPO_ID, values);
-        values.put(Utilidades.CAMPO_ID,"2");
-        values.put(Utilidades.CAMPO_NOMBRE,"Ciclismo");
-        values.put(Utilidades.CAMPO_DESCRIPCION,"Manejar una bicicleta");
-        idResultante= db.insert(Utilidades.TABLA_MODO, Utilidades.CAMPO_ID, values);*/
-    }
+
 }

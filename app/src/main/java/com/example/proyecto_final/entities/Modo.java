@@ -1,17 +1,21 @@
 package com.example.proyecto_final.entities;
 
 public class Modo {
-    private Integer id;
+   private Integer id;
     private String nombre;
     private String descripcion;
 
-    public Modo(Integer id, String nombre, String descripcion) {
-        this.id = id;
+    public Modo(){
+
+    }
+
+    public Modo( String nombre, String descripcion) {
+       // this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
 
-    public Integer getId() {
+   public Integer getId() {
         return id;
     }
 
