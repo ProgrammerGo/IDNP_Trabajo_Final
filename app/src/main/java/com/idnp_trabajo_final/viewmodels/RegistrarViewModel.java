@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.idnp_trabajo_final.dao.daoUsuario;
-import com.idnp_trabajo_final.entiities.Usuario;
-import com.idnp_trabajo_final.usecases.LoginUseCase;
 import com.idnp_trabajo_final.usecases.RegistrarUseCase;
 
 public class RegistrarViewModel extends ViewModel {

@@ -67,7 +67,18 @@ public class RegistrarActivity extends AppCompatActivity {
         btnAnonimo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
+                int idE= viewModel.loginAnonimo(dao);
+                Toast toast=Toast.makeText(LoginActivity.this,text, Toast.LENGTH_SHORT);
+                toast.show();
+                if(idE!=-1){
+                    Intent i2= new Intent(LoginActivity.this,PerfilActivity.class);
+                    i2.putExtra("Id",idE);
+                    startActivity(i2);
+                    finish();
+                }
 
+                 */
             }
         });
     }

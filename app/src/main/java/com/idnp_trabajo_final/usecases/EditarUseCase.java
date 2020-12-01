@@ -1,8 +1,7 @@
 package com.idnp_trabajo_final.usecases;
 
 import com.idnp_trabajo_final.dao.daoUsuario;
-import com.idnp_trabajo_final.entiities.Usuario;
-import com.idnp_trabajo_final.views.EditarActivity;
+import com.idnp_trabajo_final.entities.Usuario;
 
 
 public class EditarUseCase {

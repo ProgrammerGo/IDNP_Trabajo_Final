@@ -2,8 +2,6 @@ package com.idnp_trabajo_final.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -12,10 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.util.Log;
 
 import com.idnp_trabajo_final.dao.daoUsuario;
-import com.idnp_trabajo_final.entiities.Usuario;
+import com.idnp_trabajo_final.utils.PreferenceUtilsLog;
 import com.idnp_trabajo_final.viewmodels.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
@@ -42,25 +39,21 @@ public class LoginActivity extends AppCompatActivity {
         btnIngresar=(Button)findViewById(R.id.btnLogIngresar);
         btnAnonimo=(Button)findViewById(R.id.btnLogAnonimo);
         btnRegistro=(Button)findViewById(R.id.btnLogRegistro);
+        PreferenceUtilsLog utils = new PreferenceUtilsLog();
+        if (utils.getId(this) != 0 ){
+            Intent intent = new Intent(LoginActivity.this, CallerActivity.class);
+            startActivity(intent);
+        }
         btnIngresar.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                /*
-                viewModel.login(dao,logMail.getText().toString(),logPass.getText().toString());
-                Toast toast=Toast.makeText(LoginActivity.this,text, Toast.LENGTH_SHORT);
-                toast.show();
-                if(text.equals("Bienvenido")){
-                    Intent i2 = new Intent(LoginActivity.this,PerfilActivity.class);
-                    int a = viewModel.login(dao,logMail.getText().toString(),logPass.getText().toString());
-                    i2.putExtra("Id",a);
-                    startActivity(i2);
-                    finish();
-                }
-                 */
                 int idE= viewModel.login(dao,logMail.getText().toString(),logPass.getText().toString());
                 Toast toast=Toast.makeText(LoginActivity.this,text, Toast.LENGTH_SHORT);
                 toast.show();
                 if(idE!=-1){
-                    Intent i2= new Intent(LoginActivity.this,PerfilActivity.class);
+
+                    PreferenceUtilsLog.saveId(idE, LoginActivity.this);
+                    Intent i2= new Intent(LoginActivity.this,CallerActivity.class);
+
                     i2.putExtra("Id",idE);
                     startActivity(i2);
                     finish();
@@ -87,7 +80,8 @@ public class LoginActivity extends AppCompatActivity {
                 Toast toast=Toast.makeText(LoginActivity.this,text, Toast.LENGTH_SHORT);
                 toast.show();
                 if(idE!=-1){
-                    Intent i2= new Intent(LoginActivity.this,PerfilActivity.class);
+                    //Intent i2= new Intent(LoginActivity.this,PerfilActivity.class);
+                    Intent i2= new Intent(LoginActivity.this,CallerActivity.class);
                     i2.putExtra("Id",idE);
                     startActivity(i2);
                     finish();
