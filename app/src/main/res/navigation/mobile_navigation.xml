@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_entrenar"
-        android:name="com.idnp_trabajo_final.views.PerfilFragment"
+        android:name="com.idnp_trabajo_final.views.EntrenamientoFragment"
         android:label="@string/title_entrenamiento"
-        tools:layout="@layout/fragment_perfil" />
+        tools:layout="@layout/fragment_entrenamiento" />
 
     <fragment
         android:id="@+id/navigation_mapa"
