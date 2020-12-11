@@ -24,9 +24,9 @@
         tools:layout="@layout/fragment_estadisticas" />
     <fragment
         android:id="@+id/navigation_musica"
-        android:name="com.idnp_trabajo_final.views.PerfilFragment"
+        android:name="com.idnp_trabajo_final.views.TunesFragment"
         android:label="@string/title_musica"
-        tools:layout="@layout/fragment_perfil" />
+        tools:layout="@layout/fragment_tunes" />
     <fragment
         android:id="@+id/navigation_perfil"
         android:name="com.idnp_trabajo_final.views.PerfilFragment"
