@@ -3,8 +3,8 @@
     package="com.idnp_trabajo_final.views">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,9 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-               Set to true if your app is Standalone, that is, it does not require the handheld
-               app to run.
-        -->
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
@@ -49,5 +46,4 @@
             android:name=".EditarActivity"
             android:label="Editar usuario" />
     </application>
-
 </manifest>
