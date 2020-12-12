@@ -57,5 +57,7 @@ public class LoginViewModel extends ViewModel {
         int numLogin = LoginUseCase.loginAnonimo(dao);
         screentext.setValue("Bienvenido!!!");
         return numLogin;
+
+
     }
 }

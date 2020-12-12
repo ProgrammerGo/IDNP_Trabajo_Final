@@ -37,6 +37,7 @@ public class EditarActivity extends AppCompatActivity {
     private void configView(){
         Log.d(TAG, "Llego a Editar");
         dao=new daoUsuario(this);
+        dao.connect();
         viewModel= ViewModelProviders.of(this).get(EditarViewModel.class);
         editNombre=(EditText)findViewById(R.id.editNombre);
         editMail=(EditText)findViewById(R.id.editMail);

@@ -41,7 +41,9 @@ public class daoModo {
 
     public int buscar(String u){
         int x=0;
+        db.close();
         lista = selectModos();
+        connect();
         for (Modo us:lista) {
             if (us.getNombre().equals(u)){
                 x++;
@@ -52,6 +54,8 @@ public class daoModo {
     public ArrayList<Modo>selectModos(){
         ArrayList<Modo> lista =new ArrayList<Modo>();
         lista.clear();
+        db.close();
+        connect();
         Cursor cr= db.rawQuery("select * from modo",null);
         if(cr!=null && cr.moveToFirst()){
 
@@ -64,6 +68,8 @@ public class daoModo {
             }while(cr.moveToNext());
         }
         db.close();
+
+
         return lista;
     }
 

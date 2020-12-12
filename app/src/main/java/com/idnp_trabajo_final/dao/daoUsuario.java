@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.idnp_trabajo_final.entities.Usuario;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 public class daoUsuario {
     Context c;
     Usuario u;
+    ConexionSQLiteHelper conn;
     ArrayList<Usuario> lista;
     SQLiteDatabase sql;
     String bd="BDUusarios";
@@ -19,21 +21,28 @@ public class daoUsuario {
 
     public daoUsuario(Context c){
         this.c=c;
-        sql = c.openOrCreateDatabase(bd, c.MODE_PRIVATE, null);
-        sql.execSQL(tabla);
+        conn= new ConexionSQLiteHelper(this.c, "usuario", null,1 );
+        sql= conn.getWritableDatabase();
+       // sql = c.openOrCreateDatabase(bd, c.MODE_PRIVATE, null);
+       // sql.execSQL(tabla);
         u=new Usuario();
         lista=new ArrayList<Usuario>();
     }
-
+    public void connect(){
+        conn= new ConexionSQLiteHelper(c, "usuario", null,1 );
+        sql= conn.getWritableDatabase();
+    }
     public boolean insertUsuario(Usuario u ){
-        if (buscar(u.getMail())==0){
+       if (buscar(u.getMail())==0){
             ContentValues cv  = new ContentValues();
             cv.put("mail",u.getMail());
             cv.put("pass",u.getPassword());
             cv.put("nombre",u.getNombre());
-            return (sql.insert("usuario",null,cv)>0);
+        boolean rpt=sql.insert("usuario",null,cv)>0;
+                sql.close();
+            return (rpt);
         }else{
-
+            sql.close();
             return false;
         }
     }
@@ -43,16 +52,19 @@ public class daoUsuario {
             cv.put("mail","");
             cv.put("pass","");
             cv.put("nombre","Anónimo");
+            sql.close();
             return (sql.insert("usuario",null,cv)>0);
         }else{
-
+            sql.close();
             return false;
         }
     }
 
     public int buscar(String u){
         int x=0;
+        sql.close();
         lista = selectUsuarios();
+        connect();
         for (Usuario us:lista) {
             if (us.getMail().equals(u)){
                 x++;
@@ -61,6 +73,7 @@ public class daoUsuario {
         return x;
     }
     public ArrayList<Usuario>selectUsuarios(){
+        connect();
         ArrayList<Usuario> lista =new ArrayList<Usuario>();
         lista.clear();
         Cursor cr= sql.rawQuery("select * from usuario",null);
@@ -74,6 +87,7 @@ public class daoUsuario {
                 lista.add(u);
             }while(cr.moveToNext());
         }
+        sql.close();
         return lista;
     }
 
@@ -92,7 +106,10 @@ public class daoUsuario {
 
 
     public Usuario getUsuario(String u, String p){
+        sql.close();
         lista=selectUsuarios();
+        connect();
+
         for (Usuario us:lista) {
             if(us.getMail().equals(u)&&us.getPassword().equals(p)){
                 return us;
@@ -102,7 +119,9 @@ public class daoUsuario {
     }
 
     public Usuario getUsuarioById(int id){
+        sql.close();
         lista=selectUsuarios();
+        connect();
         for (Usuario us:lista) {
             if(us.getId()==id){
                 return us;

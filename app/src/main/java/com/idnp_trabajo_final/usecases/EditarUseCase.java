@@ -7,6 +7,7 @@ import com.idnp_trabajo_final.entities.Usuario;
 public class EditarUseCase {
 
     public static int editarUsuario(Usuario u, daoUsuario dao, String mail, String name, String pass) {
+      dao.connect();
         u.setMail(mail);
         u.setNombre(name);
         u.setPassword(pass);

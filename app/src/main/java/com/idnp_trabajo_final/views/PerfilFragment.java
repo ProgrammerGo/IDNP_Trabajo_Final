@@ -65,6 +65,7 @@ public class PerfilFragment extends Fragment {
         }
 
         dao = new daoUsuario(getActivity());
+        dao.connect();
         u = dao.getUsuarioById(id);
         textWelcome.setText("Hola " + u.getNombre());
         textNombre.setText(u.getNombre());

@@ -19,6 +19,7 @@ public class ConexionSQLiteHelper  extends SQLiteOpenHelper {
         db.execSQL(Utilidades.create_tablaModo);
         db.execSQL(Utilidades.create_tablaCoordenada);
         db.execSQL(Utilidades.create_tablaTrayectoria);
+        db.execSQL(Utilidades.create_tablaUsuario);
     }
 
     @Override
@@ -26,6 +27,8 @@ public class ConexionSQLiteHelper  extends SQLiteOpenHelper {
         db.execSQL(Utilidades.UPDATE_TABLE_MODO );
         db.execSQL(Utilidades.UPDATE_TABLE_COORDENADA );
         db.execSQL(Utilidades.UPDATE_TABLE_TRAYECTORIA );
+        db.execSQL(Utilidades.UPDATE_TABLE_USUARIO);
+
         onCreate(db);
 
     }

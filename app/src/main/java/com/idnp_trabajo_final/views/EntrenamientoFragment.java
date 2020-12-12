@@ -37,7 +37,7 @@ public class EntrenamientoFragment extends Fragment {
     private TextView kilometros;
     private EntrenamientoViewModel homeViewModel;
     private static final long MIN_TIEMPO_ENTRE_UPDATES = 1000 * 5 * 1; // 1 minuto
-    private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 1; // 1.5 metros
+    private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 50; // 1.5 metros
     private static daoModo dao;
     private double longitud;
     private double latitud;
@@ -77,7 +77,8 @@ public class EntrenamientoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("prueba2 ", "onClick: ");
-                final LocationManager locationManager = (LocationManager) root.getContext().getSystemService(Context.LOCATION_SERVICE);
+                final LocationManager locationManager = (LocationManager)
+                        root.getContext().getSystemService(Context.LOCATION_SERVICE);
 
                 final int locationUpdateRC = 0;
                 int flags = PendingIntent.FLAG_UPDATE_CURRENT;
@@ -98,7 +99,8 @@ public class EntrenamientoFragment extends Fragment {
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 }
 
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,MIN_TIEMPO_ENTRE_UPDATES,0, pendingIntent);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,MIN_TIEMPO_ENTRE_UPDATES,
+                        MIN_CAMBIO_DISTANCIA_PARA_UPDATES, pendingIntent);
 
                 terminar.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -125,6 +127,7 @@ public class EntrenamientoFragment extends Fragment {
             @Override
             public void onChanged(String resultado) {
                 kilometros.setText(resultado);
+
             }
         };
 
@@ -140,6 +143,7 @@ public class EntrenamientoFragment extends Fragment {
         terminar= (Button)root.findViewById(R.id.terminar);
         kilometros=(TextView)root.findViewById(R.id.kilometros) ;
         ComboBox(root);
+        Sppiner();
 
 
     }
@@ -154,5 +158,16 @@ public class EntrenamientoFragment extends Fragment {
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(root.getContext(), android.R.layout.simple_spinner_item,opciones);
         spinner.setAdapter(adapter);
     }
+public void Sppiner(){
+        daoModo dao= new daoModo(root.getContext());
+    Log.d("Quiero", "Sppiner: "+dao.selectModos().size());
+        if (dao.selectModos().size()==0) {
+            Log.d("Quiero2", "Sppiner: "+dao.selectModos().size());
 
+            dao.connect();
+            dao.insertModo(new Modo("Correr", "Velocidad alta"));
+            dao.connect();
+            dao.insertModo(new Modo("Caminata", "Velocidad lenta "));
+        }
+        }
 }

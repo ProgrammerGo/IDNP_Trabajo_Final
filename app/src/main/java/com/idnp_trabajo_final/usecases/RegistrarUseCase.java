@@ -7,6 +7,7 @@ import com.idnp_trabajo_final.entities.Usuario;
 public class RegistrarUseCase {
 
     public static String registrarMessage(daoUsuario dao, String mail, String name, String pass){
+        dao.connect();
         Usuario u=new Usuario();
         u.setMail(mail);
         u.setNombre(name);

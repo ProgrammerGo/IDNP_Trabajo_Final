@@ -86,6 +86,8 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(i2);
                     finish();
                 }
+
+
             }
         });
     }
