@@ -13,10 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_mapa"
-        android:name="com.idnp_trabajo_final.views.PerfilFragment"
+        android:name="com.idnp_trabajo_final.views.MapaFragment"
         android:label="@string/title_mapa"
-        tools:layout="@layout/fragment_perfil" />
-
+        tools:layout="@layout/fragment_mapa" />
     <fragment
         android:id="@+id/navigation_estadisticas"
         android:name="com.idnp_trabajo_final.views.EstadisticasFragment"
