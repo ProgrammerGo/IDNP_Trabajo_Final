@@ -9,28 +9,34 @@ import androidx.lifecycle.ViewModel;
 import com.idnp_trabajo_final.entities.Coordenada;
 import com.idnp_trabajo_final.usecases.HallarRecorrido;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class EntrenamientoViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
-    private MutableLiveData<Coordenada> mMedida;
+  //  private MutableLiveData<String> mText;
+    private MutableLiveData<double[]> mMedida2;
+
 
     public EntrenamientoViewModel() {
 
-        mText = new MutableLiveData<String>();
-        mMedida=new MutableLiveData<Coordenada>();
+      //  mText = new MutableLiveData<String>();
+        mMedida2= new MutableLiveData<double[]>();
     }
 
-    public LiveData<String> getText() {
+    /*public LiveData<String> getText() {
 
         return mText;
     }
-    public LiveData<Coordenada> getMedida() {
 
-        return mMedida;
+     */
+    public LiveData<double[]> getText() {
+
+        return mMedida2;
     }
+
     public void RecorridoTotal(double latitud, double longitud, Date now, View root) {
-        mText.setValue(HallarRecorrido.RecorridoTotal(latitud, longitud, now, root));
+      //  mText.setValue(HallarRecorrido.RecorridoTotal(latitud, longitud, now, root));
+        mMedida2.setValue(HallarRecorrido.RecorridoTotal(latitud,longitud,now,root));
     }
 }

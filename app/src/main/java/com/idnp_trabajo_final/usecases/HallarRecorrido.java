@@ -18,9 +18,9 @@ public class HallarRecorrido {
     private static Trayectoria trayectoria;
     private static daoCoordenada daoCoordenada;
     private static daoTrayectoria daoTrayectoria;
+    private static  double [] enviar;
 
-
-    public static  String  RecorridoTotal(double latitud, double longitud, Date now, View root){
+   /* public static  String  RecorridoTotal(double latitud, double longitud, Date now, View root){
         if(trayectoria== null ){
             crearTrayectoria(now,root);
         }
@@ -55,6 +55,47 @@ public class HallarRecorrido {
         return String.valueOf(total);
     }
 
+    */
+   public static  double[] RecorridoTotal(double latitud, double longitud, Date now, View root){
+       if(trayectoria== null ){
+           crearTrayectoria(now,root);
+       }
+
+       if(daoCoordenada== null ){
+           daoCoordenada= new daoCoordenada(root.getContext());
+       }
+
+       Coordenada new_coordenada= new Coordenada(latitud,longitud, trayectoria.getId());
+       daoCoordenada.connect();
+       boolean a= daoCoordenada.insertCoordenada(new_coordenada);
+       if(anterior==null){
+           anterior = new Location("point A");
+           anterior.setLatitude(latitud);
+           anterior.setLongitude(longitud);
+       }
+       else{
+           Location locationB = new Location("point B");
+           locationB.setLatitude(latitud);
+           locationB.setLongitude(longitud);
+           float distance = anterior.distanceTo(locationB);
+           anterior= locationB;
+           total+=distance;
+           daoCoordenada.connect();
+
+
+
+
+       }
+
+       enviar= new double[3];
+       enviar[0]= latitud;
+       enviar[1]= longitud;
+       enviar[2]=total;
+       return enviar;
+
+       //return String.valueOf(total);
+
+   }
     private static void crearTrayectoria(Date now,View root) {
         SimpleDateFormat sdf = new SimpleDateFormat("hh: mm: ss a dd-MMM-aaaa");
         String fechaComoCadena = sdf.format(now);

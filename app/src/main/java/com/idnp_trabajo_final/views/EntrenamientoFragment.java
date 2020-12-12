@@ -21,6 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.idnp_trabajo_final.dao.ConexionSQLiteHelper;
@@ -123,7 +125,7 @@ public class EntrenamientoFragment extends Fragment {
 
         /*Observador*/
 
-        final Observer<String> observer = new Observer<String>() {
+        /*final Observer<String> observer = new Observer<String>() {
             @Override
             public void onChanged(String resultado) {
                 kilometros.setText(resultado);
@@ -131,8 +133,17 @@ public class EntrenamientoFragment extends Fragment {
             }
         };
 
-        homeViewModel.getText().observe(getViewLifecycleOwner(), observer);
+        homeViewModel.getText().observe(getViewLifecycleOwner(), observer);*/
 
+        final Observer<double[]> observer = new Observer<double[]>() {
+            @Override
+            public void onChanged(double[] resultado) {
+                kilometros.setText(String.valueOf(resultado[2]));
+                pasarArgumentos(resultado);
+            }
+        };
+
+        homeViewModel.getText().observe(getViewLifecycleOwner(), observer);
 
         return root;
     }
@@ -169,5 +180,19 @@ public void Sppiner(){
             dao.connect();
             dao.insertModo(new Modo("Caminata", "Velocidad lenta "));
         }
+        }
+        public void pasarArgumentos(double[] resultado){
+            Bundle datosAEnviar = new Bundle();
+            datosAEnviar.putDouble("latitud",resultado[0]);
+            datosAEnviar.putDouble("longitud",resultado[1]);
+            Fragment fragmento= new MapaFragment();
+            fragmento.setArguments(datosAEnviar);
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            //fragmentTransaction.replace(R.id.content_principal, fragmento);
+            fragmentTransaction.addToBackStack(null);
+            // Terminar transición y nos vemos en el fragmento de destino
+            fragmentTransaction.commit();
+
         }
 }
