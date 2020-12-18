@@ -19,6 +19,7 @@ import com.idnp_trabajo_final.dao.daoModo;
 import com.idnp_trabajo_final.dao.daoRecorrido;
 import com.idnp_trabajo_final.entities.Recorrido;
 import com.idnp_trabajo_final.utils.IComunicaFragments;
+import com.idnp_trabajo_final.utils.PreferenceUtilsLog;
 import com.idnp_trabajo_final.utils.Utilidades;
 
 import java.util.ArrayList;
@@ -111,11 +112,12 @@ public class ListaRecorridosFragment extends Fragment {
     private void llenarListaRecorridos(View root) {
         dao=new daoRecorrido(getContext());
 //        dao.onCrear();
-
+        PreferenceUtilsLog utils = new PreferenceUtilsLog();
         dao.connect();
         dao.insertRecorrido(new Recorrido(1,2,"20/12/2020",54.3, 40));
         dao.insertRecorrido(new Recorrido(1,2,"20/13/2020",54.3, 40));
-        listaRecorrido= dao.selectRecorrido();
+        int u =utils.getId(getContext());
+        listaRecorrido= dao.selectRecorridobyUser(u);
         Log.d("Prueba", "llenarListaRecorridos: "+ listaRecorrido.get(0).toString());
         Log.d("Prueba", "llenarListaRecorridos: "+ listaRecorrido.get(1).toString());
     }

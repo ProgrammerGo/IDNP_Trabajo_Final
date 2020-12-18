@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.idnp_trabajo_final.dao.daoUsuario;
+import com.idnp_trabajo_final.entities.Recorrido;
 import com.idnp_trabajo_final.viewmodels.LoginViewModel;
 import com.idnp_trabajo_final.viewmodels.RegistrarViewModel;
 
@@ -20,6 +21,7 @@ public class RegistrarActivity extends AppCompatActivity {
     EditText regNombre, regMail, regPass;
     daoUsuario dao;
     private RegistrarViewModel viewModel;
+    private LoginViewModel viewModel1;
     String text=" ";
 
     @Override
@@ -67,18 +69,15 @@ public class RegistrarActivity extends AppCompatActivity {
         btnAnonimo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                int idE= viewModel.loginAnonimo(dao);
-                Toast toast=Toast.makeText(LoginActivity.this,text, Toast.LENGTH_SHORT);
+                int idE= viewModel1.loginAnonimo(dao);
+                Toast toast=Toast.makeText(RegistrarActivity.this,text, Toast.LENGTH_SHORT);
                 toast.show();
                 if(idE!=-1){
-                    Intent i2= new Intent(LoginActivity.this,PerfilActivity.class);
+                    Intent i2= new Intent(RegistrarActivity.this,PerfilActivity.class);
                     i2.putExtra("Id",idE);
                     startActivity(i2);
                     finish();
                 }
-
-                 */
             }
         });
     }
