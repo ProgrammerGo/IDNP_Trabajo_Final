@@ -118,8 +118,9 @@ public class ListaRecorridosFragment extends Fragment {
         dao.insertRecorrido(new Recorrido(1,2,"20/13/2020",54.3, 40));
         int u =utils.getId(getContext());
         listaRecorrido= dao.selectRecorridobyUser(u);
+        /*
         Log.d("Prueba", "llenarListaRecorridos: "+ listaRecorrido.get(0).toString());
-        Log.d("Prueba", "llenarListaRecorridos: "+ listaRecorrido.get(1).toString());
+        Log.d("Prueba", "llenarListaRecorridos: "+ listaRecorrido.get(1).toString());*/
     }
 
     // TODO: Rename method, update argument and hook method into UI event

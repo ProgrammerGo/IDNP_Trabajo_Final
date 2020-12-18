@@ -34,6 +34,7 @@ public class RegistrarActivity extends AppCompatActivity {
     private void configView(){
         dao=new daoUsuario(this);
         viewModel= ViewModelProviders.of(this).get(RegistrarViewModel.class);
+        viewModel1= ViewModelProviders.of(this).get(LoginViewModel.class);
         regNombre=(EditText)findViewById(R.id.regNombre);
         regMail=(EditText)findViewById(R.id.regMail);
         regPass=(EditText)findViewById(R.id.regPass);

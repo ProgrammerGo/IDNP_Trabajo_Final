@@ -13,6 +13,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="Editar Cuenta"
+        android:textColor="@color/redG"
         android:textSize="20dp"
         android:textStyle="bold" />
 
@@ -23,6 +24,7 @@
         android:layout_marginRight="20dp"
         android:layout_weight="1"
         android:gravity="center"
+        android:textColor="@color/darkBlue"
         android:text="Aquí puede editar su información personal" />
 
     <EditText
@@ -75,7 +77,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="91dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_rounded_gray"
+            android:background="@drawable/btn_rounded_red"
             android:text="Actualizar"
             android:textColor="#ffff"
             android:textSize="15dp"
@@ -95,9 +97,9 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="38dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_rounded_gray2"
+            android:background="@drawable/btn_rounded_blue2"
             android:text="Eliminar cuenta"
-            android:textColor="#000"
+            android:textColor="#ffff"
             android:textSize="13dp" />
 
         <Button

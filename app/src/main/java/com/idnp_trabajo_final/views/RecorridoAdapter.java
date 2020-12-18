@@ -35,9 +35,9 @@ public class RecorridoAdapter extends RecyclerView.Adapter<RecorridoAdapter.Reco
     @Override
     public void onBindViewHolder(RecorridosViewHolder holder, int position) {
         Log.d("Prueba holder", "onBindViewHolder: "+holder);
-        holder.txtModo.setText(String.valueOf(listaRecorridos.get(position).getModo()));
-        holder.txtFecha.setText(listaRecorridos.get(position).getFecha());
-        holder.txtDist.setText(Float.toString(listaRecorridos.get(position).getDistancia()));
+        holder.txtModo.setText("Modo: "+ String.valueOf((listaRecorridos.get(position).getModo())));
+        holder.txtFecha.setText("Fecha: "+listaRecorridos.get(position).getFecha());
+        holder.txtDist.setText("Distancia: "+Float.toString(listaRecorridos.get(position).getDistancia()));
         if (Constants.PORTRAIT==true){
             //holder.txtInformacion.setText(listaRecorridos.get(position).getInfo());
         }
