@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
+                <!--
                 <TextView
                     android:id="@+id/txtModo"
                     android:layout_width="wrap_content"
@@ -44,12 +44,12 @@
                     android:textSize="20dp"
                     android:textColor="@color/backWhite"
                     android:textStyle="bold" />
-
+-->
                 <TextView
                     android:id="@+id/txtFecha"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginVertical="10dp"
                     android:text="Fecha"
                     android:textSize="20dp"
                     android:textColor="@color/backWhite"
@@ -60,7 +60,7 @@
                     android:id="@+id/txtDist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginVertical="10dp"
                     android:text="Distancia"
                     android:textColor="@color/backWhite"
 
