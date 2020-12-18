@@ -1,12 +1,14 @@
 package com.idnp_trabajo_final.views;
 import android.Manifest;
 import android.app.Activity;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -21,6 +23,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -55,6 +59,9 @@ public class EntrenamientoFragment extends Fragment {
     private   long tStart;
     private int id_recorrido;
     private static  LocationManager locationManager;
+    private PendingIntent pendingIntent2;
+    private final static String CHANNEL_ID= "Notification";
+    private final static int  NOTIFICATION_ID= 0;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -139,6 +146,7 @@ public class EntrenamientoFragment extends Fragment {
             public void onClick(View v) {
                 if (update) {
                     update = false;
+                    createNotification();
                     pause.setBackgroundResource(R.drawable.ic_baseline_play_circle_outline_24);
                     locationManager.removeUpdates(pendingIntent);
                 }
@@ -224,6 +232,7 @@ public void renaudar(){
             double elapsedSeconds = tDelta / 1000.0;
             Log.d("prueba", "onClick: " + elapsedSeconds);
             requireActivity().unregisterReceiver(broadcast);
+            if(update==false)
             locationManager.removeUpdates(pendingIntent);
             daoRecorrido = new daoRecorrido(root.getContext());
             Log.d("prueba", "onClick: " + id_recorrido);
@@ -236,6 +245,19 @@ public void renaudar(){
         }
     });
 }
+    public void createNotification(){
+        NotificationCompat.Builder builder= new NotificationCompat.Builder(root.getContext(), CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.ic_baseline_directions_run_24);
+        builder.setContentTitle("Goo");
+        builder.setContentText("Tu entrenamiento esta pausado");
+        builder.setColor(Color.BLACK);
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setLights(Color.MAGENTA, 1000, 1000);
+        builder.setVibrate(new long[]{1000,1000});
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+        NotificationManagerCompat notificationManagerCompat= NotificationManagerCompat.from(root.getContext());
+        notificationManagerCompat.notify(NOTIFICATION_ID,builder.build());
 
+    }
 
 }

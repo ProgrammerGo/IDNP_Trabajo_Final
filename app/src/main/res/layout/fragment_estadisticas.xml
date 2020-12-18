@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
         app:layout_constraintVertical_bias="0.171">
 
         <TextView
@@ -66,15 +66,12 @@
         android:id="@+id/constraintLayout4"
         android:layout_width="127dp"
         android:layout_height="118dp"
-        android:layout_marginTop="46dp"
         android:layout_marginEnd="60dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/constraintLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.331">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        app:layout_constraintVertical_bias="0.131">
 
         <TextView
             android:layout_width="wrap_content"
@@ -176,13 +173,13 @@
 
     <TextView
         android:id="@+id/textView5"
-        android:layout_width="291dp"
-        android:layout_height="44dp"
+        android:layout_width="302dp"
+        android:layout_height="61dp"
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:text="Aquí podras ver  un resumen con tus estadísticas. "
         android:textColor="#000"
-        android:textSize="17dp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"

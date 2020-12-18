@@ -41,7 +41,7 @@ public class EstadisticasUseCase {
          now = new Date();
         date1=new Date();
         for(int i=0; i< recorridos.size();i++){
-            Log.d("estadisticas", "recorrido "+recorridos.get(i).getDistancia()+"  "+recorridos.get(i).getFecha());
+            Log.d("estadisticas2", "recorrido "+recorridos.get(i).getDistancia()+"  "+recorridos.get(i).getFecha());
             try {
 
                  sdf = new SimpleDateFormat("hh: mm: ss a dd-MM-yyyy");
@@ -49,16 +49,17 @@ public class EstadisticasUseCase {
                 fecha_dos= new Date();
                 String cadena=recorridos.get(i).getFecha();
                 convierte(cadena);
-                Log.d("estadisticas", "fechaultima "+sdf.format(fecha_dos));
+                Log.d("estadisticas2", "fechaultima "+sdf.format(fecha_dos));
+                Log.d("estadisticas2", "Date1 "+sdf.format(date1));
                if (fecha_dos.after(date1)) {
                     distancia_total_semana += recorridos.get(i).getDistancia();
-                    Log.d("estadisticas", "distancia total"+distancia_total_semana);
+                    Log.d("estadisticas2", "distancia total"+distancia_total_semana);
                 }
 
 
             }
             catch (Exception ex) {
-                Log.d("estadistica", "ERROR");
+                Log.d("estadistica2", "ERROR");
             }
         }
 
@@ -70,6 +71,7 @@ public class EstadisticasUseCase {
         date1.setMinutes(59);
         date1.setSeconds(59);
         int  argumento1= now.getDate() - i;
+        Log.d("estadisticas2", "argumento1 "+argumento1);
         int argumento2= now.getMonth() - j;
         date1.setDate(argumento1);
         date1.setMonth(argumento2);
@@ -90,7 +92,7 @@ public class EstadisticasUseCase {
         now = new Date();
         date1=new Date();
         for(int i=0; i< recorridos.size();i++){
-            Log.d("estadisticas2", "recorrido "+recorridos.get(i).getDistancia()+"  "+recorridos.get(i).getFecha());
+            Log.d("estadisticas1", "recorrido "+recorridos.get(i).getDistancia()+"  "+recorridos.get(i).getFecha());
             try {
 
                 sdf = new SimpleDateFormat("hh: mm: ss a dd-MM-yyyy");
@@ -98,16 +100,17 @@ public class EstadisticasUseCase {
                 fecha_dos= new Date();
                 String cadena=recorridos.get(i).getFecha();
                 convierte(cadena);
-                Log.d("estadisticas2", "fechaultima "+sdf.format(fecha_dos));
+                Log.d("estadisticas1", "fechaultima "+sdf.format(fecha_dos));
+                Log.d("estadisticas1", "DATE1 "+sdf.format(date1));
                 if (fecha_dos.after(date1)) {
                     distancia_total_mes += recorridos.get(i).getDistancia();
-                    Log.d("estadisticas2", "distancia total "+distancia_total_mes);
-                }
 
+                }
+                Log.d("estadisticas1", "distancia total "+distancia_total_mes);
 
             }
             catch (Exception ex) {
-                Log.d("estadistica2", "ERROR");
+                Log.d("estadistica1", "ERROR");
             }
         }
 
