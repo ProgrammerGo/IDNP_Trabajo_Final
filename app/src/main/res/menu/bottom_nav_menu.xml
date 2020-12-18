@@ -6,11 +6,6 @@
         android:icon="@drawable/ic_baseline_directions_run_24"
         android:title="@string/title_entrenamiento" />
     <item
-        android:id="@+id/navigation_mapa"
-        android:enabled="true"
-        android:icon="@drawable/ic_baseline_location_on_24"
-        android:title="@string/title_mapa" />
-    <item
         android:id="@+id/navigation_estadisticas"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_assessment_24"

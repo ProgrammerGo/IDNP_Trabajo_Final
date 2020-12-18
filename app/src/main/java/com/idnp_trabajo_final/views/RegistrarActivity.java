@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.idnp_trabajo_final.dao.daoUsuario;
+import com.idnp_trabajo_final.entities.Recorrido;
 import com.idnp_trabajo_final.viewmodels.LoginViewModel;
 import com.idnp_trabajo_final.viewmodels.RegistrarViewModel;
 
@@ -27,6 +28,8 @@ public class RegistrarActivity extends AppCompatActivity {
     private LoginViewModel viewModel1;
     private final static String CHANNEL_ID= "Notification";
     private final static int  NOTIFICATION_ID= 0;
+
+
     String text=" ";
 
     @Override
@@ -75,7 +78,9 @@ public class RegistrarActivity extends AppCompatActivity {
         btnAnonimo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 createNotification();
+
                 int idE= viewModel1.loginAnonimo(dao);
                 Toast toast=Toast.makeText(RegistrarActivity.this,text, Toast.LENGTH_SHORT);
                 toast.show();

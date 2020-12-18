@@ -18,14 +18,14 @@
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
-        app:layout_constraintVertical_bias="0.08">
+        app:layout_constraintVertical_bias="0.053">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/oswald"
-            android:text="Km/dia promedio"
+            android:text="Min/dia promedio"
             android:textColor="#000"
             android:textSize="15dp"
             android:textStyle="bold"
@@ -49,8 +49,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="17dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="22dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
             android:fontFamily="@font/oswald"
@@ -74,17 +74,17 @@
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout5"
-        app:layout_constraintVertical_bias="0.148">
+        app:layout_constraintVertical_bias="0.101">
 
         <Button
             android:id="@+id/btnVer"
-            android:layout_width="115dp"
-            android:layout_height="36dp"
+            android:layout_width="136dp"
+            android:layout_height="42dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_weight="1"
-            android:background="@drawable/btn_rounded_gray"
+            android:background="@drawable/btn_rounded_red"
             android:text="Ver Historial"
             android:textColor="#ffff"
             android:textSize="13dp"
@@ -106,7 +106,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/constraintLayout"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.297">
+        app:layout_constraintVertical_bias="0.265">
 
         <TextView
             android:layout_width="wrap_content"
@@ -225,10 +225,10 @@
         android:id="@+id/constraintLayout"
         android:layout_width="127dp"
         android:layout_height="118dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="28dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.207"
+        app:layout_constraintHorizontal_bias="0.211"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5">
 
@@ -280,15 +280,12 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="127dp"
         android:layout_height="118dp"
-        android:layout_marginTop="46dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginTop="28dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.381"
         app:layout_constraintStart_toEndOf="@+id/constraintLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
 
         <TextView
             android:layout_width="wrap_content"

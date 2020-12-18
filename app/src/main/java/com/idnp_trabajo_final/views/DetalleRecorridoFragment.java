@@ -91,10 +91,10 @@ public class DetalleRecorridoFragment extends Fragment {
         //imagenDetalle.setImageResource(miRecorrido.getImagenDetalle());
         daoModo dao= new daoModo(getContext());
         dao.connect();
-        textDistancia.setText(String.valueOf(miRecorrido.getDistancia()));
-        textFecha.setText(miRecorrido.getFecha());
-        textModo.setText(dao.getModoById(miRecorrido.getModo()).getNombre());
-        textTiempo.setText(String.valueOf(miRecorrido.getTiempo()));
+        textDistancia.setText("Distancia: "+String.valueOf(miRecorrido.getDistancia())+ "minutos");
+        textFecha.setText("Fecha: "+miRecorrido.getFecha());
+        textModo.setText("Modo: "+dao.getModoById(miRecorrido.getModo()).getNombre());
+        textTiempo.setText("Tiempo: "+String.valueOf(miRecorrido.getTiempo())+ "minutos");
     }
 
     // TODO: Rename method, update argument and hook method into UI event

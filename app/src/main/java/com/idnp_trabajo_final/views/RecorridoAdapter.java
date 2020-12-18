@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.idnp_trabajo_final.dao.daoModo;
 import com.idnp_trabajo_final.entities.Recorrido;
 import com.idnp_trabajo_final.utils.Constants;
 
@@ -35,9 +36,8 @@ public class RecorridoAdapter extends RecyclerView.Adapter<RecorridoAdapter.Reco
     @Override
     public void onBindViewHolder(RecorridosViewHolder holder, int position) {
         Log.d("Prueba holder", "onBindViewHolder: "+holder);
-        holder.txtModo.setText(String.valueOf(listaRecorridos.get(position).getModo()));
-        holder.txtFecha.setText(listaRecorridos.get(position).getFecha());
-        holder.txtDist.setText(Float.toString(listaRecorridos.get(position).getDistancia()));
+        holder.txtFecha.setText("Fecha: "+listaRecorridos.get(position).getFecha());
+        holder.txtDist.setText("Distancia: "+Float.toString(listaRecorridos.get(position).getDistancia()));
         if (Constants.PORTRAIT==true){
             //holder.txtInformacion.setText(listaRecorridos.get(position).getInfo());
         }

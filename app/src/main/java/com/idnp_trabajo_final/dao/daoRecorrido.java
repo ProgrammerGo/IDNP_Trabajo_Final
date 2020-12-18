@@ -82,6 +82,32 @@ public class daoRecorrido {
         return lista;
     }
 
+    public ArrayList<Recorrido>selectRecorridobyUser(int usuarioId){
+        ArrayList<Recorrido> lista =new ArrayList<Recorrido>();
+        lista.clear();
+        db.close();
+        connect();
+        Cursor cr= db.rawQuery("select * from recorrido",null);
+        if(cr!=null && cr.moveToFirst()){
+
+            do {
+                if(cr.getInt(2)== usuarioId) {
+                    Recorrido u = new Recorrido();
+                    u.setId(cr.getInt(0));
+                    u.setModo(cr.getInt(1));
+                    u.setUsuario(cr.getInt(2));
+                    u.setFecha(cr.getString(3));
+                    u.setTiempo(cr.getLong(4));
+                    u.setDistancia(cr.getFloat(5));
+                    lista.add(u);
+                }
+            }while(cr.moveToNext());
+        }
+        db.close();
+
+
+        return lista;
+    }
 
     public Recorrido getRecorrido(String u ){
         lista=selectRecorrido();
