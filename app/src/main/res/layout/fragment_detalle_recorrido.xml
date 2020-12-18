@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DetalleRecorridoFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/imagenDetalleId"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:src="@drawable/entrenar_fondo"
+        android:scaleType="fitXY"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/modoId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modo"/>
+    <TextView
+        android:id="@+id/fechaId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fecha"/>
+    <TextView
+        android:id="@+id/distanciaId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Distancia"/>
+
+</LinearLayout>

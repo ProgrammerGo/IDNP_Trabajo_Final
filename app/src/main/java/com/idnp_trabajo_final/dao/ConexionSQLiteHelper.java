@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import com.idnp_trabajo_final.dao.Utilidades;
+import com.idnp_trabajo_final.utils.Utilidades;
 
 public class ConexionSQLiteHelper  extends SQLiteOpenHelper {
 
@@ -20,6 +20,7 @@ public class ConexionSQLiteHelper  extends SQLiteOpenHelper {
         db.execSQL(Utilidades.create_tablaCoordenada);
         db.execSQL(Utilidades.create_tablaTrayectoria);
         db.execSQL(Utilidades.create_tablaUsuario);
+        db.execSQL(Utilidades.create_tablaRecorrido);
     }
 
     @Override
@@ -28,6 +29,7 @@ public class ConexionSQLiteHelper  extends SQLiteOpenHelper {
         db.execSQL(Utilidades.UPDATE_TABLE_COORDENADA );
         db.execSQL(Utilidades.UPDATE_TABLE_TRAYECTORIA );
         db.execSQL(Utilidades.UPDATE_TABLE_USUARIO);
+        db.execSQL(Utilidades.UPDATE_TABLE_RECORRIDO);
 
         onCreate(db);
 
