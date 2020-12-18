@@ -1,6 +1,7 @@
 package com.idnp_trabajo_final.views;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,10 +9,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class CallerActivity extends AppCompatActivity {
+public class CallerActivity extends AppCompatActivity{
 
     private TextView mTextView;
 
@@ -28,4 +28,6 @@ public class CallerActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
         mTextView = (TextView) findViewById(R.id.text);
     }
+
+
 }

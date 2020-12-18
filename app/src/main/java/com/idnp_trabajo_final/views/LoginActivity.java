@@ -53,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     PreferenceUtilsLog.saveId(idE, LoginActivity.this);
                     Intent i2= new Intent(LoginActivity.this,CallerActivity.class);
-
                     i2.putExtra("Id",idE);
                     startActivity(i2);
                     finish();
