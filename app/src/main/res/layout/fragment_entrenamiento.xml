@@ -95,7 +95,7 @@
             android:id="@+id/renaudar"
             android:layout_width="60dp"
             android:layout_height="34dp"
-            android:background="@drawable/nuevo_play"
+            android:background="@drawable/ic_baseline_pause_circle_outline_24"
             tools:layout_editor_absoluteX="203dp"
             tools:layout_editor_absoluteY="494dp" />
 

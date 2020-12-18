@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,14 +95,14 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
                 Toast.makeText(getActivity(), ERROR_MSG, Toast.LENGTH_LONG).show();
             }
         }
-        startTrackingLocation();
+    //    startTrackingLocation();
             /*mLocationRequest = new LocationRequest()
                     .setInterval(5000)
                     .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);*/
         //return inflater.inflate(R.layout.fragment_mapa, container, false);
         return root;
     }
-    private void startTrackingLocation() {
+ /*   private void startTrackingLocation() {
         if (
                 ActivityCompat
                         .checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION)==PERMISSION_GRANTED ||
@@ -113,20 +114,8 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
                     .setInterval(5000); // Update every 5 seconds.
             locationClient.requestLocationUpdates(request, mLocationCallback, null);
         }
-    }
-    private void startTrackingLocation2(double lat, double lng) {
-        if (
-                ActivityCompat
-                        .checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION)==PERMISSION_GRANTED ||
-                        ActivityCompat
-                                .checkSelfPermission(getActivity(), ACCESS_COARSE_LOCATION)==PERMISSION_GRANTED) {
-            FusedLocationProviderClient locationClient =
-                    LocationServices.getFusedLocationProviderClient(getActivity());
-            LocationRequest request = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                    .setInterval(5000); // Update every 5 seconds.
-            locationClient.requestLocationUpdates(request, mLocationCallback, null);
-        }
-    }
+    }*/
+   /*
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
@@ -137,7 +126,7 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
                     latLongString = "Lat:" + lat + "\nLong:" + lng;
                 }
                 mTextView.setText(latLongString);*/
-            Location location = locationResult.getLastLocation();
+   /*     Location location = locationResult.getLastLocation();
             if (location != null) {
                 updateTextView(location);
                 if (mMap != null) {
@@ -153,14 +142,14 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
                                 .title(dateTime)
                                 .snippet("Marker #" + markerNumber +
                                         " @ " + dateTime)));*/
-                    List<LatLng> points = mPolyline.getPoints();
+   /*                 List<LatLng> points = mPolyline.getPoints();
                     points.add(latLng);
                     mPolyline.setPoints(points);
                 }
             }
         }
     };
-
+*/
     private void updateTextView(Location location) {
         String latLongString = "No location found";
         if (location != null) {
@@ -250,5 +239,8 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
                 .color(Color.CYAN)
                 .geodesic(true);
         mPolyline = mMap.addPolyline(polylineOptions);
+    }
+    public void recibir(double latitud, double longitud){
+        Log.d("Exito", "recibir: ");
     }
 }
