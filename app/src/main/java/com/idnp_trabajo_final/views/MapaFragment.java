@@ -95,14 +95,14 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
                 Toast.makeText(getActivity(), ERROR_MSG, Toast.LENGTH_LONG).show();
             }
         }
-    //    startTrackingLocation();
+        startTrackingLocation();
             /*mLocationRequest = new LocationRequest()
                     .setInterval(5000)
                     .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);*/
         //return inflater.inflate(R.layout.fragment_mapa, container, false);
         return root;
     }
- /*   private void startTrackingLocation() {
+    private void startTrackingLocation() {
         if (
                 ActivityCompat
                         .checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION)==PERMISSION_GRANTED ||
@@ -114,42 +114,40 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
                     .setInterval(5000); // Update every 5 seconds.
             locationClient.requestLocationUpdates(request, mLocationCallback, null);
         }
-    }*/
-   /*
+    }
+
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
-                /*String latLongString = "No location found";
+                String latLongString = "No location found";
                 for (Location location : locationResult.getLocations()) {
                     double lat = location.getLatitude();
                     double lng = location.getLongitude();
                     latLongString = "Lat:" + lat + "\nLong:" + lng;
                 }
-                mTextView.setText(latLongString);*/
-   /*     Location location = locationResult.getLastLocation();
+                mTextView.setText(latLongString);
+        Location location = locationResult.getLastLocation();
             if (location != null) {
                 updateTextView(location);
                 if (mMap != null) {
                     LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
                     mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                     Calendar c = Calendar.getInstance();
-                    String dateTime
-                            = DateFormat.format("MM/dd/yyyy HH:mm:ss",
-                            c.getTime()).toString();
-                        /*int markerNumber = mMarkers.size()+1;
+                    String dateTime = DateFormat.format("MM/dd/yyyy HH:mm:ss", c.getTime()).toString();
+                        int markerNumber = mMarkers.size()+1;
                         mMarkers.add(mMap.addMarker(new MarkerOptions()
                                 .position(latLng)
                                 .title(dateTime)
                                 .snippet("Marker #" + markerNumber +
-                                        " @ " + dateTime)));*/
-   /*                 List<LatLng> points = mPolyline.getPoints();
+                                        " @ " + dateTime)));
+                    List<LatLng> points = mPolyline.getPoints();
                     points.add(latLng);
                     mPolyline.setPoints(points);
                 }
             }
         }
     };
-*/
+
     private void updateTextView(Location location) {
         String latLongString = "No location found";
         if (location != null) {
@@ -170,12 +168,12 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         //mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
         Double lat = -16.378902237623677;
         Double lng = -71.51167433639307;
         LatLng position = new LatLng(lat, lng);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position,17));
         //Marker newMarker = mMap.addMarker(new MarkerOptions().position(position));
-        CircleOptions circleOptions = new CircleOptions()
+        /*CircleOptions circleOptions = new CircleOptions()
                 .center(new LatLng(lat,lng))
                 .radius(10) // 1000 meters
                 .fillColor(Color.argb(50, 255, 0, 0))
@@ -190,7 +188,7 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
                         new LatLng(52.873063, 2.107099),
                         new LatLng(56.124692, -1.738115),
                         new LatLng(67.569820, -13.625322))
-                .fillColor(Color.argb(44,00,00,44)).geodesic(true);
+                .fillColor(Color.argb(44,00,00,44)).geodesic(true);*/
             /*List<LatLng> holePoints = new ArrayList<>();
             holePoints.add(new LatLng(53.097936, -2.331377));
             holePoints.add(new LatLng(52.015946, -2.067705));
@@ -219,12 +217,12 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
                     .geodesic(true);
             Polyline polyline = mMap.addPolyline(polylineOptions);
             polyline.setClickable(true);*/
-        circle.setClickable(true);
+        //circle.setClickable(true);
         //polygon.setClickable(true);
-        BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+        /*BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
         Marker newMarker = mMap.addMarker(new MarkerOptions()
                 .position(position)
-                .icon(icon));
+                .icon(icon));*/
         //target
         if (ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)

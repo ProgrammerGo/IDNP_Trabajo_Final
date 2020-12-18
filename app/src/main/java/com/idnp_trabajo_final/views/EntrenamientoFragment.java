@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -31,17 +35,36 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.idnp_trabajo_final.dao.ConexionSQLiteHelper;
 import com.idnp_trabajo_final.dao.daoModo;
 import com.idnp_trabajo_final.dao.daoRecorrido;
 import com.idnp_trabajo_final.entities.Modo;
 import com.idnp_trabajo_final.entities.Recorrido;
 import com.idnp_trabajo_final.viewmodels.EntrenamientoViewModel;
+import com.idnp_trabajo_final.viewmodels.MapaViewModel;
+import com.idnp_trabajo_final.viewmodels.MapaViewModel;
 
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-public class EntrenamientoFragment extends Fragment {
+import java.util.List;
+import java.util.Calendar;
+import java.util.List;
+
+public class EntrenamientoFragment extends Fragment implements OnMapReadyCallback {
     private Spinner spinner;
     private Button iniciar;
     private Button terminar;
@@ -62,6 +85,14 @@ public class EntrenamientoFragment extends Fragment {
     private PendingIntent pendingIntent2;
     private final static String CHANNEL_ID= "Notification";
     private final static int  NOTIFICATION_ID= 0;
+    private MapaViewModel mViewModel;
+    private GoogleMap mMap;
+    private static final String ERROR_MSG= "Google Play services are unavailable.";
+    private TextView mTextView;
+    private LocationRequest mLocationRequest;
+    private List<Marker> mMarkers = new ArrayList<>();
+    private Polyline mPolyline;
+    private static final int LOCATION_PERMISSION_REQUEST = 1;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -95,7 +126,15 @@ public class EntrenamientoFragment extends Fragment {
         /*-----------------------------------------------------------------------------------------------------------------*/
 
         /*Ubicacion*/
-
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        supportMapFragment.getMapAsync(this);
+        GoogleApiAvailability availability = GoogleApiAvailability.getInstance();
+        int result = availability.isGooglePlayServicesAvailable(getActivity());
+        if (result != ConnectionResult.SUCCESS) {
+            if (!availability.isUserResolvableError(result)) {
+                Toast.makeText(getActivity(), ERROR_MSG, Toast.LENGTH_LONG).show();
+            }
+        }
         iniciar.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -136,6 +175,19 @@ public class EntrenamientoFragment extends Fragment {
                 DecimalFormat format = new DecimalFormat("#########.###");// el numero de ceros despues del entero
                 kilometros.setText(String.valueOf(format.format(resultado[2])));
                 id_recorrido= (int) resultado[3];
+                LatLng latLng = new LatLng(resultado[0],resultado[1]);
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                /*Calendar c = Calendar.getInstance();
+                String dateTime = DateFormat.format("MM/dd/yyyy HH:mm:ss", c.getTime()).toString();
+                int markerNumber = mMarkers.size()+1;
+                mMarkers.add(mMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title(dateTime)
+                        .snippet("Marker #" + markerNumber +
+                                " @ " + dateTime)));*/
+                List<LatLng> points = mPolyline.getPoints();
+                points.add(latLng);
+                mPolyline.setPoints(points);
             }
         };
 
@@ -199,6 +251,8 @@ public void Sppiner(){
 
 public void renaudar(){
     Log.d("prueba ", "Empezo el entrenamiento ");
+    Toast toast1 = Toast.makeText(getActivity(),"Se inicio el recorrido", Toast.LENGTH_SHORT);
+    toast1.show();
     locationManager = (LocationManager)
             root.getContext().getSystemService(Context.LOCATION_SERVICE);
 
@@ -227,6 +281,8 @@ public void renaudar(){
     terminar.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            /*Toast toast1 = Toast.makeText(getActivity(),"Termino el recorrido", Toast.LENGTH_SHORT);
+            toast1.show();*/
             long tEnd = System.currentTimeMillis();
             long tDelta = tEnd - tStart;
             double elapsedSeconds = tDelta / 1000.0;
@@ -260,4 +316,26 @@ public void renaudar(){
 
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        //mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        Double lat = -16.378902237623677;
+        Double lng = -71.51167433639307;
+        LatLng position = new LatLng(lat, lng);
+        Marker newMarker = mMap.addMarker(new MarkerOptions().position(position));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position,15));
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+        }
+        PolylineOptions polylineOptions = new PolylineOptions()
+                .color(Color.GREEN)
+                .geodesic(true);
+        mPolyline = mMap.addPolyline(polylineOptions);
+    }
 }

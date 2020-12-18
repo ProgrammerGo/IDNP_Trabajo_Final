@@ -1,0 +1,604 @@
+Index: app/src/main/java/com/idnp_trabajo_final/views/EntrenamientoFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.idnp_trabajo_final.views;\r\nimport android.Manifest;\r\nimport android.app.Activity;\r\nimport android.app.PendingIntent;\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.content.IntentFilter;\r\nimport android.content.pm.PackageManager;\r\nimport android.database.sqlite.SQLiteDatabase;\r\nimport android.graphics.drawable.Drawable;\r\nimport android.location.LocationManager;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ArrayAdapter;\r\nimport android.widget.Button;\r\nimport android.widget.Spinner;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.core.app.ActivityCompat;\r\nimport androidx.core.content.ContextCompat;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.fragment.app.FragmentManager;\r\nimport androidx.fragment.app.FragmentTransaction;\r\nimport androidx.lifecycle.Observer;\r\nimport androidx.lifecycle.ViewModelProviders;\r\nimport com.idnp_trabajo_final.dao.ConexionSQLiteHelper;\r\nimport com.idnp_trabajo_final.dao.daoModo;\r\nimport com.idnp_trabajo_final.dao.daoRecorrido;\r\nimport com.idnp_trabajo_final.entities.Modo;\r\nimport com.idnp_trabajo_final.entities.Recorrido;\r\nimport com.idnp_trabajo_final.viewmodels.EntrenamientoViewModel;\r\n\r\n\r\nimport java.text.DecimalFormat;\r\nimport java.util.ArrayList;\r\npublic class EntrenamientoFragment extends Fragment {\r\n    private Spinner spinner;\r\n    private Button iniciar;\r\n    private Button terminar;\r\n    private Button pause;\r\n    private TextView kilometros;\r\n    private MyLocationUpdateReceiver broadcast;\r\n    private boolean update= true;\r\n    private EntrenamientoViewModel homeViewModel;\r\n    private static final long MIN_TIEMPO_ENTRE_UPDATES = 1000 * 5 * 1; // 1 minuto\r\n    private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 1; // 1.5 metros\r\n    private static daoModo dao;\r\n    private static daoRecorrido daoRecorrido;\r\n    private  PendingIntent  pendingIntent;\r\n    private View root;\r\n    private   long tStart;\r\n    private int id_recorrido;\r\n    private static  LocationManager locationManager;\r\n    public View onCreateView(@NonNull LayoutInflater inflater,\r\n                             ViewGroup container, Bundle savedInstanceState) {\r\n\r\n\r\n        homeViewModel =\r\n                ViewModelProviders.of(this).get(EntrenamientoViewModel.class);\r\n        /* ******************************************************************************************* */\r\n\r\n        /* ******************************************************************************************* */\r\n        root = inflater.inflate(R.layout.fragment_entrenamiento, container, false);\r\n\r\n        /*-----------------------------------------------------------------------------------------------------------------*/\r\n        /*\r\n         * Prepara la interfaz\r\n         * */\r\n        configView(root);\r\n        /*-----------------------------------------------------------------------------------------------------------------*/\r\n\r\n        /*PERMISOS*/\r\n        int permissionCheck= ContextCompat.checkSelfPermission(root.getContext(), Manifest.permission.ACCESS_FINE_LOCATION);\r\n        if(permissionCheck== PackageManager.PERMISSION_DENIED){\r\n            if(ActivityCompat.shouldShowRequestPermissionRationale((Activity) root.getContext(),\r\n                    Manifest.permission.ACCESS_FINE_LOCATION)){\r\n\r\n            }\r\n            else{\r\n                ActivityCompat.requestPermissions((Activity) root.getContext(), new String[]{\r\n                        Manifest.permission.ACCESS_FINE_LOCATION},1);\r\n            }\r\n        }\r\n        /*-----------------------------------------------------------------------------------------------------------------*/\r\n\r\n        /*Ubicacion*/\r\n\r\n        iniciar.setOnClickListener(new View.OnClickListener() {\r\n\r\n            @Override\r\n            public void onClick(View v) {\r\n                /* * *************************************************** Tiempo  */\r\n\r\n                tStart = System.currentTimeMillis();\r\n\r\n                /* * ***************************************************  */\r\n\r\n           renaudar();\r\n            }\r\n\r\n\r\n\r\n\r\n        });\r\n\r\n\r\n\r\n        /*-----------------------------------------------------------------------------------------------------------------*/\r\n\r\n        /*Observador*/\r\n\r\n        /*final Observer<String> observer = new Observer<String>() {\r\n            @Override\r\n            public void onChanged(String resultado) {\r\n                kilometros.setText(resultado);\r\n\r\n            }\r\n        };\r\n\r\n        homeViewModel.getText().observe(getViewLifecycleOwner(), observer);*/\r\n\r\n        final Observer<double[]> observer = new Observer<double[]>() {\r\n            @Override\r\n            public void onChanged(double[] resultado) {\r\n                DecimalFormat format = new DecimalFormat(\"#########.###\");// el numero de ceros despues del entero\r\n                kilometros.setText(String.valueOf(format.format(resultado[2])));\r\n                id_recorrido= (int) resultado[3];\r\n            }\r\n        };\r\n\r\n        homeViewModel.getText().observe(getViewLifecycleOwner(), observer);\r\n/* *************************************************************************** PAUSE*/\r\n        pause.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                if (update) {\r\n                    update = false;\r\n                    pause.setBackgroundResource(R.drawable.ic_baseline_play_circle_outline_24);\r\n                    locationManager.removeUpdates(pendingIntent);\r\n                }\r\n                else {\r\n                    update=true;\r\n                    pause.setBackgroundResource(R.drawable.ic_baseline_pause_circle_outline_24);\r\n                    renaudar();\r\n                }\r\n            }\r\n        });\r\n\r\n        /* *************************************************************************** */\r\n        return root;\r\n    }\r\n\r\n    public void configView(View root){\r\n        spinner= (Spinner) root.findViewById(R.id.modo);\r\n        iniciar= (Button)root.findViewById(R.id.iniciar);\r\n        terminar= (Button)root.findViewById(R.id.terminar);\r\n        kilometros=(TextView)root.findViewById(R.id.kilometros) ;\r\n        pause=(Button)root.findViewById(R.id.renaudar) ;\r\n        ComboBox(root);\r\n        Sppiner();\r\n\r\n\r\n    }\r\n    public void ComboBox(View root){\r\n        ArrayList<String> opciones = new ArrayList<String>();\r\n        dao= new daoModo(getContext());\r\n        dao.connect();\r\n        for (Modo us:dao.selectModos()) {\r\n            opciones.add(us.getNombre());\r\n        }\r\n\r\n        ArrayAdapter<String> adapter= new ArrayAdapter<String>(root.getContext(), android.R.layout.simple_spinner_item,opciones);\r\n        spinner.setAdapter(adapter);\r\n    }\r\npublic void Sppiner(){\r\n        daoModo dao= new daoModo(root.getContext());\r\n    Log.d(\"Quiero\", \"Sppiner: \"+dao.selectModos().size());\r\n        if (dao.selectModos().size()==0) {\r\n            Log.d(\"Quiero2\", \"Sppiner: \"+dao.selectModos().size());\r\n\r\n            dao.connect();\r\n            dao.insertModo(new Modo(\"Correr\", \"Velocidad alta\"));\r\n            dao.connect();\r\n            dao.insertModo(new Modo(\"Caminata\", \"Velocidad lenta \"));\r\n        }\r\n        }\r\n\r\npublic void renaudar(){\r\n    Log.d(\"prueba \", \"Empezo el entrenamiento \");\r\n    locationManager = (LocationManager)\r\n            root.getContext().getSystemService(Context.LOCATION_SERVICE);\r\n\r\n    final int locationUpdateRC = 0;\r\n    int flags = PendingIntent.FLAG_UPDATE_CURRENT;\r\n  broadcast = new MyLocationUpdateReceiver(homeViewModel,root);\r\n    if(broadcast!=null){\r\n        IntentFilter intentFilter= new IntentFilter();\r\n        intentFilter.addAction(LocationManager.KEY_LOCATION_CHANGED);\r\n        requireActivity().registerReceiver(broadcast,intentFilter);\r\n    }\r\n    else{\r\n\r\n    }\r\n    Intent intent = new Intent(LocationManager.KEY_LOCATION_CHANGED);\r\n    pendingIntent =PendingIntent.getBroadcast(root.getContext(), locationUpdateRC, intent, flags);\r\n\r\n    if (ActivityCompat.checkSelfPermission(root.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=\r\n            PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(root.getContext(),\r\n            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {\r\n    }\r\n\r\n    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,MIN_TIEMPO_ENTRE_UPDATES,\r\n            MIN_CAMBIO_DISTANCIA_PARA_UPDATES, pendingIntent);\r\n\r\n    terminar.setOnClickListener(new View.OnClickListener() {\r\n        @Override\r\n        public void onClick(View v) {\r\n            long tEnd = System.currentTimeMillis();\r\n            long tDelta = tEnd - tStart;\r\n            double elapsedSeconds = tDelta / 1000.0;\r\n            Log.d(\"prueba\", \"onClick: \" + elapsedSeconds);\r\n            requireActivity().unregisterReceiver(broadcast);\r\n            locationManager.removeUpdates(pendingIntent);\r\n            daoRecorrido = new daoRecorrido(root.getContext());\r\n            Log.d(\"prueba\", \"onClick: \" + id_recorrido);\r\n            dao.connect();\r\n            Recorrido recorrido = daoRecorrido.getRecorridoById(id_recorrido);\r\n            recorrido.setTiempo(elapsedSeconds);\r\n            daoRecorrido.updateRecorrido(recorrido);\r\n            Log.d(\"prueba\", \"onClick: \"+recorrido.getDistancia()+\" \"+recorrido.getTiempo());\r\n            getActivity().finish();\r\n        }\r\n    });\r\n}\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/idnp_trabajo_final/views/EntrenamientoFragment.java	(revision ea4cb5f108b647415f5654a7d8b4abc5952734d0)
++++ app/src/main/java/com/idnp_trabajo_final/views/EntrenamientoFragment.java	(date 1608330740035)
+@@ -6,10 +6,10 @@
+ import android.content.Intent;
+ import android.content.IntentFilter;
+ import android.content.pm.PackageManager;
+-import android.database.sqlite.SQLiteDatabase;
+-import android.graphics.drawable.Drawable;
++import android.graphics.Color;
+ import android.location.LocationManager;
+ import android.os.Bundle;
++import android.text.format.DateFormat;
+ import android.util.Log;
+ import android.view.LayoutInflater;
+ import android.view.View;
+@@ -18,26 +18,41 @@
+ import android.widget.Button;
+ import android.widget.Spinner;
+ import android.widget.TextView;
++import android.widget.Toast;
+ 
+ import androidx.annotation.NonNull;
+ import androidx.core.app.ActivityCompat;
+ import androidx.core.content.ContextCompat;
+ import androidx.fragment.app.Fragment;
+-import androidx.fragment.app.FragmentManager;
+-import androidx.fragment.app.FragmentTransaction;
+ import androidx.lifecycle.Observer;
+ import androidx.lifecycle.ViewModelProviders;
+-import com.idnp_trabajo_final.dao.ConexionSQLiteHelper;
++
++import com.google.android.gms.common.ConnectionResult;
++import com.google.android.gms.common.GoogleApiAvailability;
++import com.google.android.gms.location.LocationRequest;
++import com.google.android.gms.maps.CameraUpdateFactory;
++import com.google.android.gms.maps.GoogleMap;
++import com.google.android.gms.maps.OnMapReadyCallback;
++import com.google.android.gms.maps.SupportMapFragment;
++import com.google.android.gms.maps.model.LatLng;
++import com.google.android.gms.maps.model.Marker;
++import com.google.android.gms.maps.model.MarkerOptions;
++import com.google.android.gms.maps.model.Polyline;
++import com.google.android.gms.maps.model.PolylineOptions;
+ import com.idnp_trabajo_final.dao.daoModo;
+ import com.idnp_trabajo_final.dao.daoRecorrido;
+ import com.idnp_trabajo_final.entities.Modo;
+ import com.idnp_trabajo_final.entities.Recorrido;
+ import com.idnp_trabajo_final.viewmodels.EntrenamientoViewModel;
++import com.idnp_trabajo_final.viewmodels.MapaViewModel;
+ 
+ 
+ import java.text.DecimalFormat;
+ import java.util.ArrayList;
+-public class EntrenamientoFragment extends Fragment {
++import java.util.Calendar;
++import java.util.List;
++
++public class EntrenamientoFragment extends Fragment implements OnMapReadyCallback {
+     private Spinner spinner;
+     private Button iniciar;
+     private Button terminar;
+@@ -52,9 +67,17 @@
+     private static daoRecorrido daoRecorrido;
+     private  PendingIntent  pendingIntent;
+     private View root;
+-    private   long tStart;
++    private long tStart;
+     private int id_recorrido;
+     private static  LocationManager locationManager;
++    private MapaViewModel mViewModel;
++    private GoogleMap mMap;
++    private static final String ERROR_MSG= "Google Play services are unavailable.";
++    private TextView mTextView;
++    private LocationRequest mLocationRequest;
++    private List<Marker> mMarkers = new ArrayList<>();
++    private Polyline mPolyline;
++    private static final int LOCATION_PERMISSION_REQUEST = 1;
+     public View onCreateView(@NonNull LayoutInflater inflater,
+                              ViewGroup container, Bundle savedInstanceState) {
+ 
+@@ -88,7 +111,15 @@
+         /*-----------------------------------------------------------------------------------------------------------------*/
+ 
+         /*Ubicacion*/
+-
++        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
++        supportMapFragment.getMapAsync(this);
++        GoogleApiAvailability availability = GoogleApiAvailability.getInstance();
++        int result = availability.isGooglePlayServicesAvailable(getActivity());
++        if (result != ConnectionResult.SUCCESS) {
++            if (!availability.isUserResolvableError(result)) {
++                Toast.makeText(getActivity(), ERROR_MSG, Toast.LENGTH_LONG).show();
++            }
++        }
+         iniciar.setOnClickListener(new View.OnClickListener() {
+ 
+             @Override
+@@ -129,6 +160,19 @@
+                 DecimalFormat format = new DecimalFormat("#########.###");// el numero de ceros despues del entero
+                 kilometros.setText(String.valueOf(format.format(resultado[2])));
+                 id_recorrido= (int) resultado[3];
++                LatLng latLng = new LatLng(resultado[0],resultado[1]);
++                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
++                /*Calendar c = Calendar.getInstance();
++                String dateTime = DateFormat.format("MM/dd/yyyy HH:mm:ss", c.getTime()).toString();
++                int markerNumber = mMarkers.size()+1;
++                mMarkers.add(mMap.addMarker(new MarkerOptions()
++                        .position(latLng)
++                        .title(dateTime)
++                        .snippet("Marker #" + markerNumber +
++                                " @ " + dateTime)));*/
++                List<LatLng> points = mPolyline.getPoints();
++                points.add(latLng);
++                mPolyline.setPoints(points);
+             }
+         };
+ 
+@@ -191,6 +235,8 @@
+ 
+ public void renaudar(){
+     Log.d("prueba ", "Empezo el entrenamiento ");
++    Toast toast1 = Toast.makeText(getActivity(),"Se inicio el recorrido", Toast.LENGTH_SHORT);
++    toast1.show();
+     locationManager = (LocationManager)
+             root.getContext().getSystemService(Context.LOCATION_SERVICE);
+ 
+@@ -219,6 +265,8 @@
+     terminar.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
++            /*Toast toast1 = Toast.makeText(getActivity(),"Termino el recorrido", Toast.LENGTH_SHORT);
++            toast1.show();*/
+             long tEnd = System.currentTimeMillis();
+             long tDelta = tEnd - tStart;
+             double elapsedSeconds = tDelta / 1000.0;
+@@ -238,4 +286,26 @@
+ }
+ 
+ 
++    @Override
++    public void onMapReady(GoogleMap googleMap) {
++        mMap = googleMap;
++        //mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
++        Double lat = -16.378902237623677;
++        Double lng = -71.51167433639307;
++        LatLng position = new LatLng(lat, lng);
++        Marker newMarker = mMap.addMarker(new MarkerOptions().position(position));
++        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position,15));
++        if (ActivityCompat.checkSelfPermission(getActivity(),
++                Manifest.permission.ACCESS_FINE_LOCATION)
++                == PackageManager.PERMISSION_GRANTED ||
++                ActivityCompat.checkSelfPermission(getActivity(),
++                        Manifest.permission.ACCESS_COARSE_LOCATION)
++                        == PackageManager.PERMISSION_GRANTED) {
++            mMap.setMyLocationEnabled(true);
++        }
++        PolylineOptions polylineOptions = new PolylineOptions()
++                .color(Color.GREEN)
++                .geodesic(true);
++        mPolyline = mMap.addPolyline(polylineOptions);
++    }
+ }
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_caller.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:id=\"@+id/container\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    >\r\n\r\n    <fragment\r\n        android:id=\"@+id/nav_host_fragment\"\r\n        android:name=\"androidx.navigation.fragment.NavHostFragment\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"550dp\"\r\n        app:defaultNavHost=\"true\"\r\n        app:layout_constraintHorizontal_bias=\"0.0\"\r\n        app:layout_constraintLeft_toLeftOf=\"@id/linearLayout\"\r\n        app:layout_constraintRight_toRightOf=\"@id/linearLayout\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:navGraph=\"@navigation/mobile_navigation\" />\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/linearLayout\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"80dp\"\r\n        android:layout_alignParentTop=\"true\"\r\n        android:orientation=\"horizontal\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/nav_view\">\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"300dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <TextView\r\n                android:id=\"@+id/txtSongLabel\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginTop=\"20dp\"\r\n                android:ellipsize=\"marquee\"\r\n                android:gravity=\"center_horizontal\"\r\n                android:marqueeRepeatLimit=\"marquee_forever\"\r\n                android:scrollHorizontally=\"true\"\r\n                android:singleLine=\"true\"\r\n                android:text=\"song name\"\r\n                android:textAlignment=\"center\"\r\n                android:textColor=\"@color/colorPrimary\"\r\n                android:textSize=\"14dp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <SeekBar\r\n                android:id=\"@+id/seekBar\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_alignParentBottom=\"true\" />\r\n\r\n        </LinearLayout>\r\n\r\n        <androidx.constraintlayout.widget.ConstraintLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\">\r\n            <Button\r\n                android:id=\"@+id/pause\"\r\n                android:layout_width=\"60dp\"\r\n                android:layout_height=\"60dp\"\r\n                android:background=\"@drawable/ic_baseline_pause_24\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\" />\r\n        </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n    </LinearLayout>\r\n    <com.google.android.material.bottomnavigation.BottomNavigationView\r\n        android:id=\"@+id/nav_view\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginStart=\"0dp\"\r\n        android:layout_marginEnd=\"0dp\"\r\n        android:background=\"?android:attr/windowBackground\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintLeft_toLeftOf=\"parent\"\r\n        app:layout_constraintRight_toRightOf=\"parent\"\r\n        app:menu=\"@menu/bottom_nav_menu\" />\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_caller.xml	(revision ea4cb5f108b647415f5654a7d8b4abc5952734d0)
++++ app/src/main/res/layout/activity_caller.xml	(date 1608329498513)
+@@ -11,7 +11,7 @@
+         android:id="@+id/nav_host_fragment"
+         android:name="androidx.navigation.fragment.NavHostFragment"
+         android:layout_width="match_parent"
+-        android:layout_height="550dp"
++        android:layout_height="475dp"
+         app:defaultNavHost="true"
+         app:layout_constraintHorizontal_bias="0.0"
+         app:layout_constraintLeft_toLeftOf="@id/linearLayout"
+@@ -42,7 +42,7 @@
+                 android:marqueeRepeatLimit="marquee_forever"
+                 android:scrollHorizontally="true"
+                 android:singleLine="true"
+-                android:text="song name"
++                android:text=""
+                 android:textAlignment="center"
+                 android:textColor="@color/colorPrimary"
+                 android:textSize="14dp"
+Index: app/src/main/res/layout/fragment_entrenamiento.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".EntrenamientoFragment\">\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView3\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginStart=\"32dp\"\r\n        android:layout_marginLeft=\"32dp\"\r\n        android:layout_marginEnd=\"32dp\"\r\n        android:layout_marginRight=\"32dp\"\r\n        android:text=\"Escoger el modo\"\r\n        android:textSize=\"18sp\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"@+id/nav_host_fragment\" />\r\n\r\n    <Spinner\r\n        android:id=\"@+id/modo\"\r\n        android:layout_width=\"250dp\"\r\n        android:layout_height=\"54dp\"\r\n        android:layout_marginTop=\"24dp\"\r\n        app:layout_constraintEnd_toEndOf=\"@+id/textView3\"\r\n        app:layout_constraintHorizontal_bias=\"0.482\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/textView3\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/textView3\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"36dp\"\r\n        android:text=\"Usted ha recorrido:\"\r\n        android:textSize=\"18sp\"\r\n        app:layout_constraintEnd_toEndOf=\"@+id/modo\"\r\n        app:layout_constraintHorizontal_bias=\"0.465\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/modo\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/modo\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/kilometros\"\r\n        android:layout_width=\"247dp\"\r\n        android:layout_height=\"72dp\"\r\n        android:gravity=\"center_horizontal\"\r\n        android:text=\"0\"\r\n        android:textAlignment=\"center\"\r\n        android:textSize=\"18sp\"\r\n        app:layout_constraintEnd_toEndOf=\"@+id/textView\"\r\n        app:layout_constraintHorizontal_bias=\"0.477\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/textView\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/textView\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView4\"\r\n        android:layout_width=\"63dp\"\r\n        android:layout_height=\"25dp\"\r\n        android:gravity=\"center_horizontal\"\r\n        android:text=\"metros\"\r\n        android:textAlignment=\"center\"\r\n        android:textSize=\"14sp\"\r\n        app:layout_constraintEnd_toEndOf=\"@+id/kilometros\"\r\n        app:layout_constraintHorizontal_bias=\"0.49\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/kilometros\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/kilometros\"\r\n        tools:ignore=\"NotSibling\" />\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/linearLayout\"\r\n        android:layout_width=\"201dp\"\r\n        android:layout_height=\"40dp\"\r\n        android:layout_marginTop=\"44dp\"\r\n        android:gravity=\"center_horizontal\"\r\n        android:orientation=\"horizontal\"\r\n        android:weightSum=\"1\"\r\n        app:layout_constraintEnd_toEndOf=\"@+id/textView4\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/textView4\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/textView4\"\r\n        tools:ignore=\"MissingConstraints\">\r\n\r\n\r\n        <Button\r\n            android:id=\"@+id/iniciar\"\r\n            android:layout_width=\"62dp\"\r\n            android:layout_height=\"42dp\"\r\n            android:background=\"@drawable/terminar\"\r\n            tools:layout_editor_absoluteX=\"308dp\"\r\n            tools:layout_editor_absoluteY=\"493dp\" />\r\n\r\n        <Button\r\n            android:id=\"@+id/renaudar\"\r\n            android:layout_width=\"60dp\"\r\n            android:layout_height=\"34dp\"\r\n            android:background=\"@drawable/ic_baseline_pause_circle_outline_24\"\r\n            tools:layout_editor_absoluteX=\"203dp\"\r\n            tools:layout_editor_absoluteY=\"494dp\" />\r\n\r\n        <Button\r\n            android:id=\"@+id/terminar\"\r\n            android:layout_width=\"60dp\"\r\n            android:layout_height=\"34dp\"\r\n            android:background=\"@drawable/renaudar\"\r\n            tools:layout_editor_absoluteX=\"0dp\"\r\n            tools:layout_editor_absoluteY=\"491dp\" />\r\n\r\n    </LinearLayout>\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView8\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"64dp\"\r\n        android:text=\"Iniciar\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/nav_view\"\r\n        app:layout_constraintEnd_toEndOf=\"@+id/linearLayout\"\r\n        app:layout_constraintHorizontal_bias=\"0.079\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/linearLayout\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/linearLayout\"\r\n        app:layout_constraintVertical_bias=\"0.0\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView9\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"64dp\"\r\n        android:text=\"Pausar\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/nav_view\"\r\n        app:layout_constraintEnd_toEndOf=\"@+id/linearLayout\"\r\n        app:layout_constraintHorizontal_bias=\"0.49\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/linearLayout\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/linearLayout\"\r\n        app:layout_constraintVertical_bias=\"0.0\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView10\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"64dp\"\r\n        android:text=\"Terminar\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/nav_view\"\r\n        app:layout_constraintEnd_toEndOf=\"@+id/linearLayout\"\r\n        app:layout_constraintHorizontal_bias=\"1.0\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/linearLayout\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/linearLayout\"\r\n        app:layout_constraintVertical_bias=\"0.0\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_entrenamiento.xml	(revision ea4cb5f108b647415f5654a7d8b4abc5952734d0)
++++ app/src/main/res/layout/fragment_entrenamiento.xml	(date 1608330592981)
+@@ -1,115 +1,99 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<androidx.constraintlayout.widget.ConstraintLayout
++    xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     tools:context=".EntrenamientoFragment">
+ 
+-    <TextView
+-        android:id="@+id/textView3"
++    <LinearLayout
++        android:id="@+id/linearLayout2"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:layout_marginStart="32dp"
+-        android:layout_marginLeft="32dp"
+-        android:layout_marginEnd="32dp"
+-        android:layout_marginRight="32dp"
+-        android:text="Escoger el modo"
+-        android:textSize="18sp"
++        android:orientation="horizontal"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="@+id/nav_host_fragment" />
++        app:layout_constraintTop_toTopOf="parent"
++        android:layout_marginTop="15dp"
++        >
+ 
+-    <Spinner
+-        android:id="@+id/modo"
+-        android:layout_width="250dp"
+-        android:layout_height="54dp"
+-        android:layout_marginTop="24dp"
+-        app:layout_constraintEnd_toEndOf="@+id/textView3"
+-        app:layout_constraintHorizontal_bias="0.482"
+-        app:layout_constraintStart_toStartOf="@+id/textView3"
+-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
++        <LinearLayout
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:orientation="vertical">
+ 
+-    <TextView
+-        android:id="@+id/textView"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_marginTop="36dp"
+-        android:text="Usted ha recorrido:"
+-        android:textSize="18sp"
+-        app:layout_constraintEnd_toEndOf="@+id/modo"
+-        app:layout_constraintHorizontal_bias="0.465"
+-        app:layout_constraintStart_toStartOf="@+id/modo"
+-        app:layout_constraintTop_toBottomOf="@+id/modo" />
++            <TextView
++                android:id="@+id/textView"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="Usted ha recorrido | "
++                android:textSize="18sp" />
+ 
+-    <TextView
+-        android:id="@+id/kilometros"
+-        android:layout_width="247dp"
+-        android:layout_height="72dp"
+-        android:gravity="center_horizontal"
+-        android:text="0"
+-        android:textAlignment="center"
+-        android:textSize="18sp"
+-        app:layout_constraintEnd_toEndOf="@+id/textView"
+-        app:layout_constraintHorizontal_bias="0.477"
+-        app:layout_constraintStart_toStartOf="@+id/textView"
+-        app:layout_constraintTop_toBottomOf="@+id/textView" />
++            <TextView
++                android:id="@+id/kilometros"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:gravity="center_horizontal"
++                android:text="0"
++                android:textAlignment="center" />
++
++        </LinearLayout>
++        <LinearLayout
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:orientation="vertical">
+ 
+-    <TextView
+-        android:id="@+id/textView4"
+-        android:layout_width="63dp"
+-        android:layout_height="25dp"
+-        android:gravity="center_horizontal"
+-        android:text="metros"
+-        android:textAlignment="center"
+-        android:textSize="14sp"
+-        app:layout_constraintEnd_toEndOf="@+id/kilometros"
+-        app:layout_constraintHorizontal_bias="0.49"
+-        app:layout_constraintStart_toStartOf="@+id/kilometros"
+-        app:layout_constraintTop_toBottomOf="@+id/kilometros"
+-        tools:ignore="NotSibling" />
++            <TextView
++                android:id="@+id/textView3"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="Escoger el modo"
++                android:textSize="18sp" />
++
++            <Spinner
++                android:id="@+id/modo"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content" />
++
++        </LinearLayout>
++    </LinearLayout>
+ 
+     <LinearLayout
+         android:id="@+id/linearLayout"
+-        android:layout_width="201dp"
+-        android:layout_height="40dp"
+-        android:layout_marginTop="44dp"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
+         android:gravity="center_horizontal"
+         android:orientation="horizontal"
+-        android:weightSum="1"
+-        app:layout_constraintEnd_toEndOf="@+id/textView4"
+-        app:layout_constraintStart_toStartOf="@+id/textView4"
+-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+-        tools:ignore="MissingConstraints">
+-
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
++        >
+ 
+         <Button
+             android:id="@+id/iniciar"
+             android:layout_width="62dp"
+-            android:layout_height="42dp"
+-            android:background="@drawable/terminar"
+-            tools:layout_editor_absoluteX="308dp"
+-            tools:layout_editor_absoluteY="493dp" />
++            android:layout_height="60dp"
++            android:background="@drawable/ic_baseline_play_circle_filled_24"
++            android:layout_marginRight="20dp"
++            />
+ 
+         <Button
+             android:id="@+id/renaudar"
+             android:layout_width="60dp"
+-            android:layout_height="34dp"
+-            android:background="@drawable/ic_baseline_pause_circle_outline_24"
+-            tools:layout_editor_absoluteX="203dp"
+-            tools:layout_editor_absoluteY="494dp" />
++            android:layout_height="60dp"
++            android:background="@drawable/ic_baseline_pause_circle_outline_24" />
+ 
+         <Button
+             android:id="@+id/terminar"
+             android:layout_width="60dp"
+-            android:layout_height="34dp"
+-            android:background="@drawable/renaudar"
+-            tools:layout_editor_absoluteX="0dp"
+-            tools:layout_editor_absoluteY="491dp" />
+-
++            android:layout_height="60dp"
++            android:background="@drawable/ic_baseline_stop_circle_24"
++            android:layout_marginLeft="20dp"
++            />
+     </LinearLayout>
+ 
+-    <TextView
++    <!--<TextView
+         android:id="@+id/textView8"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+@@ -140,12 +124,20 @@
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="64dp"
+-        android:text="Terminar"
++        android:text="@string/terminar"
+         app:layout_constraintBottom_toTopOf="@+id/nav_view"
+         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+         app:layout_constraintHorizontal_bias="1.0"
+         app:layout_constraintStart_toStartOf="@+id/linearLayout"
+         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+-        app:layout_constraintVertical_bias="0.0" />
++        app:layout_constraintVertical_bias="0.0" />-->
+ 
++    <fragment
++        android:id="@+id/map"
++        android:name="com.google.android.gms.maps.SupportMapFragment"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        app:layout_constraintStart_toStartOf="parent"
++        android:layout_marginTop="15dp"
++        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/idnp_trabajo_final/views/MapaFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.idnp_trabajo_final.views;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.core.app.ActivityCompat;\r\nimport androidx.fragment.app.FragmentActivity;\r\nimport androidx.fragment.app.FragmentManager;\r\nimport androidx.lifecycle.ViewModelProvider;\r\n\r\nimport android.Manifest;\r\nimport android.content.pm.PackageManager;\r\nimport android.graphics.Color;\r\nimport android.location.Location;\r\nimport android.os.Bundle;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.lifecycle.ViewModelProviders;\r\n\r\nimport android.text.format.DateFormat;\r\nimport android.util.Log;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.google.android.gms.common.ConnectionResult;\r\nimport com.google.android.gms.common.GoogleApiAvailability;\r\nimport com.google.android.gms.location.FusedLocationProviderClient;\r\nimport com.google.android.gms.location.LocationCallback;\r\nimport com.google.android.gms.location.LocationRequest;\r\nimport com.google.android.gms.location.LocationResult;\r\nimport com.google.android.gms.location.LocationServices;\r\nimport com.google.android.gms.maps.CameraUpdateFactory;\r\nimport com.google.android.gms.maps.GoogleMap;\r\nimport com.google.android.gms.maps.OnMapReadyCallback;\r\nimport com.google.android.gms.maps.SupportMapFragment;\r\nimport com.google.android.gms.maps.model.BitmapDescriptor;\r\nimport com.google.android.gms.maps.model.BitmapDescriptorFactory;\r\nimport com.google.android.gms.maps.model.Circle;\r\nimport com.google.android.gms.maps.model.CircleOptions;\r\nimport com.google.android.gms.maps.model.LatLng;\r\nimport com.google.android.gms.maps.model.Marker;\r\nimport com.google.android.gms.maps.model.MarkerOptions;\r\nimport com.google.android.gms.maps.model.PolygonOptions;\r\nimport com.google.android.gms.maps.model.Polyline;\r\nimport com.google.android.gms.maps.model.PolylineOptions;\r\nimport com.idnp_trabajo_final.viewmodels.EntrenamientoViewModel;\r\nimport com.idnp_trabajo_final.viewmodels.MapaViewModel;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.Calendar;\r\nimport java.util.List;\r\n\r\nimport static android.Manifest.permission.ACCESS_COARSE_LOCATION;\r\nimport static android.Manifest.permission.ACCESS_FINE_LOCATION;\r\nimport static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;\r\n\r\npublic class MapaFragment extends Fragment implements OnMapReadyCallback {\r\n    private MapaViewModel mViewModel;\r\n    private GoogleMap mMap;\r\n    private static final String ERROR_MSG= \"Google Play services are unavailable.\";\r\n    private TextView mTextView;\r\n    private LocationRequest mLocationRequest;\r\n    private List<Marker> mMarkers = new ArrayList<>();\r\n    private Polyline mPolyline;\r\n    private static final int LOCATION_PERMISSION_REQUEST = 1;\r\n    public static MapaFragment newInstance() {\r\n        return new MapaFragment();\r\n    }\r\n    private MapaViewModel homeViewModel;\r\n    private View root;\r\n    private FragmentActivity myContext;\r\n    @Override\r\n    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,\r\n                             @Nullable Bundle savedInstanceState) {\r\n        //setContentView(R.layout.fragment_mapa);\r\n        homeViewModel =\r\n                ViewModelProviders.of(this).get(MapaViewModel.class);\r\n        root = inflater.inflate(R.layout.fragment_mapa, container, false);\r\n        mTextView = root.findViewById(R.id.myLocationText);\r\n        // Obtain the SupportMapFragment and request the Google Map object.\r\n        /*MapFragment mapFragment =\r\n                (MapFragment)getFragmentManager()\r\n                        .findFragmentById(R.id.map);*/\r\n        //SupportMapFragment mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);\r\n        //mapFragment.getMapAsync(this);\r\n        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);\r\n        supportMapFragment.getMapAsync(this);\r\n        GoogleApiAvailability availability = GoogleApiAvailability.getInstance();\r\n        int result = availability.isGooglePlayServicesAvailable(getActivity());\r\n        if (result != ConnectionResult.SUCCESS) {\r\n            if (!availability.isUserResolvableError(result)) {\r\n                Toast.makeText(getActivity(), ERROR_MSG, Toast.LENGTH_LONG).show();\r\n            }\r\n        }\r\n    //    startTrackingLocation();\r\n            /*mLocationRequest = new LocationRequest()\r\n                    .setInterval(5000)\r\n                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);*/\r\n        //return inflater.inflate(R.layout.fragment_mapa, container, false);\r\n        return root;\r\n    }\r\n /*   private void startTrackingLocation() {\r\n        if (\r\n                ActivityCompat\r\n                        .checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION)==PERMISSION_GRANTED ||\r\n                        ActivityCompat\r\n                                .checkSelfPermission(getActivity(), ACCESS_COARSE_LOCATION)==PERMISSION_GRANTED) {\r\n            FusedLocationProviderClient locationClient =\r\n                    LocationServices.getFusedLocationProviderClient(getActivity());\r\n            LocationRequest request = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)\r\n                    .setInterval(5000); // Update every 5 seconds.\r\n            locationClient.requestLocationUpdates(request, mLocationCallback, null);\r\n        }\r\n    }*/\r\n   /*\r\n    LocationCallback mLocationCallback = new LocationCallback() {\r\n        @Override\r\n        public void onLocationResult(LocationResult locationResult) {\r\n                /*String latLongString = \"No location found\";\r\n                for (Location location : locationResult.getLocations()) {\r\n                    double lat = location.getLatitude();\r\n                    double lng = location.getLongitude();\r\n                    latLongString = \"Lat:\" + lat + \"\\nLong:\" + lng;\r\n                }\r\n                mTextView.setText(latLongString);*/\r\n   /*     Location location = locationResult.getLastLocation();\r\n            if (location != null) {\r\n                updateTextView(location);\r\n                if (mMap != null) {\r\n                    LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());\r\n                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));\r\n                    Calendar c = Calendar.getInstance();\r\n                    String dateTime\r\n                            = DateFormat.format(\"MM/dd/yyyy HH:mm:ss\",\r\n                            c.getTime()).toString();\r\n                        /*int markerNumber = mMarkers.size()+1;\r\n                        mMarkers.add(mMap.addMarker(new MarkerOptions()\r\n                                .position(latLng)\r\n                                .title(dateTime)\r\n                                .snippet(\"Marker #\" + markerNumber +\r\n                                        \" @ \" + dateTime)));*/\r\n   /*                 List<LatLng> points = mPolyline.getPoints();\r\n                    points.add(latLng);\r\n                    mPolyline.setPoints(points);\r\n                }\r\n            }\r\n        }\r\n    };\r\n*/\r\n    private void updateTextView(Location location) {\r\n        String latLongString = \"No location found\";\r\n        if (location != null) {\r\n            double lat = location.getLatitude();\r\n            double lng = location.getLongitude();\r\n            latLongString = \"Lat:\" + lat + \"\\nLong:\" + lng;\r\n        }\r\n        mTextView.setText(latLongString);\r\n    }\r\n    @Override\r\n    public void onActivityCreated(@Nullable Bundle savedInstanceState) {\r\n        super.onActivityCreated(savedInstanceState);\r\n        mViewModel = new ViewModelProvider(this).get(MapaViewModel.class);\r\n        // TODO: Use the ViewModel\r\n    }\r\n\r\n    @Override\r\n    public void onMapReady(GoogleMap googleMap) {\r\n        mMap = googleMap;\r\n        //mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);\r\n        mMap.animateCamera(CameraUpdateFactory.zoomTo(17));\r\n        Double lat = -16.378902237623677;\r\n        Double lng = -71.51167433639307;\r\n        LatLng position = new LatLng(lat, lng);\r\n        //Marker newMarker = mMap.addMarker(new MarkerOptions().position(position));\r\n        CircleOptions circleOptions = new CircleOptions()\r\n                .center(new LatLng(lat,lng))\r\n                .radius(10) // 1000 meters\r\n                .fillColor(Color.argb(50, 255, 0, 0))\r\n                .strokeColor(Color.RED);\r\n        Circle circle = mMap.addCircle(circleOptions);\r\n        PolygonOptions polygonOptions = new PolygonOptions()\r\n                .add(new LatLng(66.992803, -26.369462),\r\n                        new LatLng(51.540138, -2.990557),\r\n                        new LatLng(50.321568, -6.066729),\r\n                        new LatLng(49.757089, -5.231768),\r\n                        new LatLng(50.934844, 1.425947),\r\n                        new LatLng(52.873063, 2.107099),\r\n                        new LatLng(56.124692, -1.738115),\r\n                        new LatLng(67.569820, -13.625322))\r\n                .fillColor(Color.argb(44,00,00,44)).geodesic(true);\r\n            /*List<LatLng> holePoints = new ArrayList<>();\r\n            holePoints.add(new LatLng(53.097936, -2.331377));\r\n            holePoints.add(new LatLng(52.015946, -2.067705));\r\n            holePoints.add(new LatLng(52.117943, 0.383657));\r\n            holePoints.add(new LatLng(53.499125, -1.088511));\r\n            mMap.addPolygon(new PolygonOptions()\r\n                    .add(new LatLng(66.992803, -26.369462),\r\n                            new LatLng(51.540138, -2.990557),\r\n                            new LatLng(50.321568, -6.066729),\r\n                            new LatLng(49.757089, -5.231768),\r\n                            new LatLng(50.934844, 1.425947),\r\n                            new LatLng(52.873063, 2.107099),\r\n                            new LatLng(56.124692, -1.738115),\r\n                            new LatLng(67.569820, -13.625322))\r\n                    .fillColor(Color.argb(44, 00, 00, 44)).addHole(holePoints));\r\n            Polygon polygon = mMap.addPolygon(polygonOptions);\r\n            PolylineOptions polylineOptions = new PolylineOptions()\r\n                    .add(new LatLng(lat,lng),\r\n                            new LatLng(51.540138, -2.990557),\r\n                            new LatLng(50.321568, -6.066729),\r\n                            new LatLng(49.757089, -5.231768),\r\n                            new LatLng(50.934844, 1.425947),\r\n                            new LatLng(52.873063, 2.107099),\r\n                            new LatLng(56.124692, -1.738115),\r\n                            new LatLng(67.569820, -13.625322))\r\n                    .geodesic(true);\r\n            Polyline polyline = mMap.addPolyline(polylineOptions);\r\n            polyline.setClickable(true);*/\r\n        circle.setClickable(true);\r\n        //polygon.setClickable(true);\r\n        BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);\r\n        Marker newMarker = mMap.addMarker(new MarkerOptions()\r\n                .position(position)\r\n                .icon(icon));\r\n        //target\r\n        if (ActivityCompat.checkSelfPermission(getActivity(),\r\n                Manifest.permission.ACCESS_FINE_LOCATION)\r\n                == PackageManager.PERMISSION_GRANTED ||\r\n                ActivityCompat.checkSelfPermission(getActivity(),\r\n                        Manifest.permission.ACCESS_COARSE_LOCATION)\r\n                        == PackageManager.PERMISSION_GRANTED) {\r\n            mMap.setMyLocationEnabled(true);\r\n        }\r\n        //target\r\n        PolylineOptions polylineOptions = new PolylineOptions()\r\n                .color(Color.CYAN)\r\n                .geodesic(true);\r\n        mPolyline = mMap.addPolyline(polylineOptions);\r\n    }\r\n    public void recibir(double latitud, double longitud){\r\n        Log.d(\"Exito\", \"recibir: \");\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/idnp_trabajo_final/views/MapaFragment.java	(revision ea4cb5f108b647415f5654a7d8b4abc5952734d0)
++++ app/src/main/java/com/idnp_trabajo_final/views/MapaFragment.java	(date 1608324805196)
+@@ -95,14 +95,14 @@
+                 Toast.makeText(getActivity(), ERROR_MSG, Toast.LENGTH_LONG).show();
+             }
+         }
+-    //    startTrackingLocation();
++        startTrackingLocation();
+             /*mLocationRequest = new LocationRequest()
+                     .setInterval(5000)
+                     .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);*/
+         //return inflater.inflate(R.layout.fragment_mapa, container, false);
+         return root;
+     }
+- /*   private void startTrackingLocation() {
++    private void startTrackingLocation() {
+         if (
+                 ActivityCompat
+                         .checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION)==PERMISSION_GRANTED ||
+@@ -114,42 +114,40 @@
+                     .setInterval(5000); // Update every 5 seconds.
+             locationClient.requestLocationUpdates(request, mLocationCallback, null);
+         }
+-    }*/
+-   /*
++    }
++
+     LocationCallback mLocationCallback = new LocationCallback() {
+         @Override
+         public void onLocationResult(LocationResult locationResult) {
+-                /*String latLongString = "No location found";
++                String latLongString = "No location found";
+                 for (Location location : locationResult.getLocations()) {
+                     double lat = location.getLatitude();
+                     double lng = location.getLongitude();
+                     latLongString = "Lat:" + lat + "\nLong:" + lng;
+                 }
+-                mTextView.setText(latLongString);*/
+-   /*     Location location = locationResult.getLastLocation();
++                mTextView.setText(latLongString);
++        Location location = locationResult.getLastLocation();
+             if (location != null) {
+                 updateTextView(location);
+                 if (mMap != null) {
+                     LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
+                     mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                     Calendar c = Calendar.getInstance();
+-                    String dateTime
+-                            = DateFormat.format("MM/dd/yyyy HH:mm:ss",
+-                            c.getTime()).toString();
+-                        /*int markerNumber = mMarkers.size()+1;
++                    String dateTime = DateFormat.format("MM/dd/yyyy HH:mm:ss", c.getTime()).toString();
++                        int markerNumber = mMarkers.size()+1;
+                         mMarkers.add(mMap.addMarker(new MarkerOptions()
+                                 .position(latLng)
+                                 .title(dateTime)
+                                 .snippet("Marker #" + markerNumber +
+-                                        " @ " + dateTime)));*/
+-   /*                 List<LatLng> points = mPolyline.getPoints();
++                                        " @ " + dateTime)));
++                    List<LatLng> points = mPolyline.getPoints();
+                     points.add(latLng);
+                     mPolyline.setPoints(points);
+                 }
+             }
+         }
+     };
+-*/
++
+     private void updateTextView(Location location) {
+         String latLongString = "No location found";
+         if (location != null) {
+@@ -170,12 +168,12 @@
+     public void onMapReady(GoogleMap googleMap) {
+         mMap = googleMap;
+         //mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+-        mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+         Double lat = -16.378902237623677;
+         Double lng = -71.51167433639307;
+         LatLng position = new LatLng(lat, lng);
++        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position,17));
+         //Marker newMarker = mMap.addMarker(new MarkerOptions().position(position));
+-        CircleOptions circleOptions = new CircleOptions()
++        /*CircleOptions circleOptions = new CircleOptions()
+                 .center(new LatLng(lat,lng))
+                 .radius(10) // 1000 meters
+                 .fillColor(Color.argb(50, 255, 0, 0))
+@@ -190,7 +188,7 @@
+                         new LatLng(52.873063, 2.107099),
+                         new LatLng(56.124692, -1.738115),
+                         new LatLng(67.569820, -13.625322))
+-                .fillColor(Color.argb(44,00,00,44)).geodesic(true);
++                .fillColor(Color.argb(44,00,00,44)).geodesic(true);*/
+             /*List<LatLng> holePoints = new ArrayList<>();
+             holePoints.add(new LatLng(53.097936, -2.331377));
+             holePoints.add(new LatLng(52.015946, -2.067705));
+@@ -219,12 +217,12 @@
+                     .geodesic(true);
+             Polyline polyline = mMap.addPolyline(polylineOptions);
+             polyline.setClickable(true);*/
+-        circle.setClickable(true);
++        //circle.setClickable(true);
+         //polygon.setClickable(true);
+-        BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
++        /*BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+         Marker newMarker = mMap.addMarker(new MarkerOptions()
+                 .position(position)
+-                .icon(icon));
++                .icon(icon));*/
+         //target
+         if (ActivityCompat.checkSelfPermission(getActivity(),
+                 Manifest.permission.ACCESS_FINE_LOCATION)
+Index: app/src/main/res/drawable/ic_baseline_stop_circle_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/ic_baseline_stop_circle_24.xml	(date 1608329598244)
++++ app/src/main/res/drawable/ic_baseline_stop_circle_24.xml	(date 1608329598244)
+@@ -0,0 +1,6 @@
++<vector android:height="24dp" android:tint="#F21922"
++    android:viewportHeight="24" android:viewportWidth="24"
++    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
++    <path android:fillColor="@android:color/white"
++        android:fillType="evenOdd" android:pathData="M8,16h8V8H8V16zM12,2C6.48,2 2,6.48 2,12s4.48,10 10,10s10,-4.48 10,-10S17.52,2 12,2L12,2z"/>
++</vector>
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision ea4cb5f108b647415f5654a7d8b4abc5952734d0)
++++ .idea/gradle.xml	(date 1608315789496)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: app/src/main/res/drawable/ic_baseline_play_circle_filled_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/ic_baseline_play_circle_filled_24.xml	(date 1608329385761)
++++ app/src/main/res/drawable/ic_baseline_play_circle_filled_24.xml	(date 1608329385761)
+@@ -0,0 +1,5 @@
++<vector android:height="24dp" android:tint="#58F24C"
++    android:viewportHeight="24" android:viewportWidth="24"
++    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
++    <path android:fillColor="@android:color/white" android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM10,16.5v-9l6,4.5 -6,4.5z"/>
++</vector>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" default=\"true\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision ea4cb5f108b647415f5654a7d8b4abc5952734d0)
++++ .idea/misc.xml	(date 1608315789488)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">IDNP_Trabajo_Final</string>\r\n    <string name=\"action_settings\">Settings</string>\r\n    <!-- Strings used for fragments for navigation -->\r\n    <string name=\"first_fragment_label\">First Fragment</string>\r\n    <string name=\"second_fragment_label\">Second Fragment</string>\r\n    <string name=\"next\">Next</string>\r\n    <string name=\"previous\">Previous</string>\r\n\r\n    <string name=\"hello_first_fragment\">Hello first fragment</string>\r\n    <string name=\"hello_second_fragment\">Hello second fragment. Arg: %1$s</string>\r\n    <string name=\"title_activity_bienvenido\">BienvenidoActivity</string>\r\n    <!--\r\n    This string is used for square devices and overridden by hello_world in\r\n    values-round/strings.xml for round devices.\r\n    -->\r\n    <string name=\"hello_world\">Hello Square World!</string>\r\n    <string name=\"title_activity_login\">LoginActivity</string>\r\n    <string name=\"title_activity_perfil\">PerfilActivity</string>\r\n    <string name=\"title_activity_registar\">RegistarActivity</string>\r\n\r\n    <!--Barra-->\r\n    <string name=\"title_entrenamiento\">Entrenar</string>\r\n    <string name=\"title_mapa\">Mapa</string>\r\n    <string name=\"title_estadisticas\">Estadisticas</string>\r\n    <string name=\"title_musica\">Musica</string>\r\n    <string name=\"title_perfil\">Mi perfil</string>\r\n    <string name=\"title_activity_caller\">CallerActivity</string>\r\n    <!-- TODO: Remove or change this placeholder text -->\r\n    <string name=\"hello_blank_fragment\">Hello blank fragment</string>\r\n    <string name=\"title_activity_maps\">Map</string>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision ea4cb5f108b647415f5654a7d8b4abc5952734d0)
++++ app/src/main/res/values/strings.xml	(date 1608320359129)
+@@ -29,4 +29,5 @@
+     <!-- TODO: Remove or change this placeholder text -->
+     <string name="hello_blank_fragment">Hello blank fragment</string>
+     <string name="title_activity_maps">Map</string>
++    <string name="terminar">Terminar</string>
+ </resources>
+\ No newline at end of file
