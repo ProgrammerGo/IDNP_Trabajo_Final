@@ -14,7 +14,7 @@
         <TextView
             android:id="@+id/perWelcome"
             android:layout_width="match_parent"
-            android:layout_height="664dp"
+            android:layout_height="291dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="Hola Usuario"
@@ -23,7 +23,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="620dp"
+            android:layout_height="250dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
@@ -32,70 +32,69 @@
 
         <TextView
             android:id="@+id/regNombre"
-            android:textSize="20dp"
-            android:layout_width="340dp"
-            android:layout_height="560dp"
+            android:layout_width="360dp"
+            android:layout_height="188dp"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
-            android:textStyle="bold"
+            android:inputType="text"
             android:text="Información personal"
-            android:inputType="text" />
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="97dp"
             android:orientation="horizontal">
 
             <TextView
 
-                android:textSize="20dp"
                 android:layout_width="5dp"
                 android:layout_height="25dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:hint="Nombre:"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/perNom"
                 android:layout_width="110dp"
                 android:layout_height="25dp"
-                android:layout_weight="1"
-                android:textSize="20dp"
                 android:layout_margin="20dp"
-                />
+                android:layout_weight="1"
+                android:textSize="20dp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="110dp"
             android:orientation="horizontal">
 
             <TextView
 
-                android:textSize="20dp"
                 android:layout_width="5dp"
                 android:layout_height="25dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:hint="Correo:"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/perMail"
                 android:layout_width="110dp"
                 android:layout_height="25dp"
-                android:layout_weight="1"
-                android:textSize="20dp"
                 android:layout_margin="20dp"
-                />
+                android:layout_weight="1"
+                android:textSize="20dp" />
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="168dp"
             android:orientation="vertical">
 
             <Button
@@ -105,12 +104,12 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="96dp"
+                android:layout_marginStart="101dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="96dp"
+                android:layout_marginEnd="91dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="144dp"
+                android:layout_marginBottom="102dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_rounded_gray"
                 android:text="Editar Usuario"
@@ -124,12 +123,12 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="96dp"
+                android:layout_marginStart="103dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="96dp"
+                android:layout_marginEnd="89dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="68dp"
+                android:layout_marginBottom="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_rounded_white"
                 android:text="Cerrar Sesión"

@@ -20,8 +20,15 @@
         android:enabled="true"
         android:icon="@drawable/ic_baseline_music_note_24"
         android:title="@string/title_musica" />
+
    <item
        android:id="@+id/navigation_perfil"
        android:icon="@drawable/ic_baseline_person_24"
        android:title="@string/title_perfil" />
+    <!--
+    <item
+        android:id="@+id/navigation_historial"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/title_perfil" />
+        -->
 </menu>

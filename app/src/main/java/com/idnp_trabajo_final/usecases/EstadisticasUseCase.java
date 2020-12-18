@@ -23,16 +23,18 @@ public class EstadisticasUseCase {
     private static double distancia_total_semana;
     private static double distancia_total_mes;
     private static double distancia_promedio_dia;
+    private static double tiempo_promedio_dia;
     private static double total_min;
     private static    SimpleDateFormat sdf;
     public static double[] HallarValores(View root2){
         root=root2;
         Log.d("estadisticas", "Metodo HallarValores ");
-        respuestas= new double[4];
+        respuestas= new double[5];
         respuestas[0]= nueva();
         respuestas[1]= nueva2();
         respuestas[2]= nueva3();
         respuestas[3]= nueva4();
+        respuestas[4]= nueva5();
         return respuestas;
     }
     public static double nueva() {
@@ -174,4 +176,33 @@ public class EstadisticasUseCase {
         return total_min;
     }
 
+    public static double nueva5() {
+        daoRecorrido = new daoRecorrido(root.getContext());
+        ArrayList<Recorrido> recorridos = daoRecorrido.selectRecorrido();
+        now = new Date();
+        date1=new Date();
+        for(int i=0; i< recorridos.size();i++){
+            Log.d("estadisticas3", "recorrido "+recorridos.get(i).getDistancia()+"  "+recorridos.get(i).getFecha());
+            try {
+
+                sdf = new SimpleDateFormat("hh: mm: ss a dd-MM-yyyy");
+                construye(0,0);
+                fecha_dos= new Date();
+                String cadena=recorridos.get(i).getFecha();
+                convierte(cadena);
+                Log.d("estadisticas3", "fechaultima "+sdf.format(fecha_dos));
+                if ((fecha_dos.getDay())==(date1.getDay())) {
+                    tiempo_promedio_dia+= recorridos.get(i).getTiempo();
+                    Log.d("estadisticas3", "distancia total"+tiempo_promedio_dia);
+                }
+
+
+            }
+            catch (Exception ex) {
+                Log.d("estadistica3", "ERROR");
+            }
+        }
+        Log.d("size", ""+recorridos.size());
+        return tiempo_promedio_dia/recorridos.size();
+    }
 }

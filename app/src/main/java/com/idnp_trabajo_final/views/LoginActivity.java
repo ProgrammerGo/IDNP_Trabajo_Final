@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         btnAnonimo.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 /* ******************************* cambios dar ******************************************/
-                createNotification();
+              createNotification();
                 /* ******************************* cambios dar ******************************************/
                 int idE= viewModel.loginAnonimo(dao);
                 Toast toast=Toast.makeText(LoginActivity.this,text, Toast.LENGTH_SHORT);

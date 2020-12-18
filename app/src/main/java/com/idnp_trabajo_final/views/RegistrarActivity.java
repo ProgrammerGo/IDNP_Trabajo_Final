@@ -1,7 +1,11 @@
 package com.idnp_trabajo_final.views;
 
+import android.app.Notification;
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -20,6 +24,9 @@ public class RegistrarActivity extends AppCompatActivity {
     EditText regNombre, regMail, regPass;
     daoUsuario dao;
     private RegistrarViewModel viewModel;
+    private LoginViewModel viewModel1;
+    private final static String CHANNEL_ID= "Notification";
+    private final static int  NOTIFICATION_ID= 0;
     String text=" ";
 
     @Override
@@ -32,6 +39,7 @@ public class RegistrarActivity extends AppCompatActivity {
     private void configView(){
         dao=new daoUsuario(this);
         viewModel= ViewModelProviders.of(this).get(RegistrarViewModel.class);
+        viewModel1= ViewModelProviders.of(this).get(LoginViewModel.class);
         regNombre=(EditText)findViewById(R.id.regNombre);
         regMail=(EditText)findViewById(R.id.regMail);
         regPass=(EditText)findViewById(R.id.regPass);
@@ -67,19 +75,31 @@ public class RegistrarActivity extends AppCompatActivity {
         btnAnonimo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                int idE= viewModel.loginAnonimo(dao);
-                Toast toast=Toast.makeText(LoginActivity.this,text, Toast.LENGTH_SHORT);
+                createNotification();
+                int idE= viewModel1.loginAnonimo(dao);
+                Toast toast=Toast.makeText(RegistrarActivity.this,text, Toast.LENGTH_SHORT);
                 toast.show();
                 if(idE!=-1){
-                    Intent i2= new Intent(LoginActivity.this,PerfilActivity.class);
+                    Intent i2= new Intent(RegistrarActivity.this,PerfilActivity.class);
                     i2.putExtra("Id",idE);
                     startActivity(i2);
                     finish();
                 }
-
-                 */
             }
         });
+    }
+    public void createNotification(){
+        NotificationCompat.Builder builder= new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.ic_baseline_directions_run_24);
+        builder.setContentTitle("Goo");
+        builder.setContentText("No te olvides de registrarte!!");
+        builder.setColor(Color.BLACK);
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setLights(Color.MAGENTA, 1000, 1000);
+        builder.setVibrate(new long[]{1000,1000});
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+        NotificationManagerCompat notificationManagerCompat= NotificationManagerCompat.from(getApplicationContext());
+        notificationManagerCompat.notify(NOTIFICATION_ID,builder.build());
+
     }
 }

@@ -32,8 +32,8 @@ public class daoRecorrido {
         if (buscar(recorrido.getFecha())==0){
             ContentValues cv  = new ContentValues();
             cv.put("modo",recorrido.getModo());
-             cv.put("usuario",recorrido.getUsuario());
-             cv.put("fecha",recorrido.getFecha());
+            cv.put("usuario",recorrido.getUsuario());
+            cv.put("fecha",recorrido.getFecha());
             cv.put("tiempo",recorrido.getTiempo());
             cv.put("distancia",recorrido.getDistancia());
             boolean rpt= db.insert("recorrido",null,cv)>0;
@@ -131,7 +131,7 @@ public class daoRecorrido {
                 "SET tiempo = " +time+
                 "WHERE id = "+id);
     }
-    public void EliminaTodo(){
+    public void onCrear(){
         db.execSQL(Utilidades.create_tablaRecorrido);
     }
 

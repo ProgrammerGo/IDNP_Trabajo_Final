@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -35,6 +37,7 @@ public class EstadisticasFragment extends Fragment {
     private TextView distancia_dia;
     private TextView totalmin;
     private TextView prommindia;
+    private Button btnVer;
     private View root;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +63,7 @@ public class EstadisticasFragment extends Fragment {
                 distancia_ultimoMes.setText(String.valueOf(format.format(resultado[1])));
                 distancia_dia.setText(String.valueOf(format.format(resultado[2])));
                 totalmin.setText(format.format(resultado[3]));
+                prommindia.setText(format.format(resultado[4]));
             }
         };
 
@@ -89,6 +93,16 @@ public class EstadisticasFragment extends Fragment {
         distancia_dia=  root.findViewById(R.id.kmdiaprom);
         totalmin=root.findViewById(R.id.totalmin);
         prommindia=root.findViewById(R.id.prommindia);
+        btnVer=root.findViewById(R.id.btnVer);
+        btnVer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ia = new Intent(getActivity(), HistorialActivity.class);
+                //ia.putExtra("Id", id);
+                startActivity(ia);
+                getActivity().finish();
+            }
+        });
 
 
     }

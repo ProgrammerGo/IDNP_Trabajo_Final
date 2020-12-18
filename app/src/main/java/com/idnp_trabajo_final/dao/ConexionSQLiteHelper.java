@@ -21,7 +21,6 @@ public class ConexionSQLiteHelper  extends SQLiteOpenHelper {
         db.execSQL(Utilidades.create_tablaTrayectoria);
         db.execSQL(Utilidades.create_tablaUsuario);
         db.execSQL(Utilidades.create_tablaRecorrido);
-
     }
 
     @Override
@@ -31,9 +30,9 @@ public class ConexionSQLiteHelper  extends SQLiteOpenHelper {
         db.execSQL(Utilidades.UPDATE_TABLE_TRAYECTORIA );
         db.execSQL(Utilidades.UPDATE_TABLE_USUARIO);
         db.execSQL(Utilidades.UPDATE_TABLE_RECORRIDO);
+
         onCreate(db);
 
     }
-
 
 }

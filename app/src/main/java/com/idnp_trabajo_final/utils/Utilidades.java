@@ -13,4 +13,3 @@ public class Utilidades {
     public static final String create_tablaUsuario="create table IF NOT EXISTS usuario(id integer primary key autoincrement, mail text, pass text, nombre text)";
     public static final String create_tablaRecorrido="create table IF NOT EXISTS recorrido(id integer primary key autoincrement, modo integer, usuario integer, fecha text, tiempo real , distancia  real )";
 }
-

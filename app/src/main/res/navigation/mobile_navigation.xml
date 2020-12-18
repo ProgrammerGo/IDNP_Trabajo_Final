@@ -31,4 +31,11 @@
         android:name="com.idnp_trabajo_final.views.PerfilFragment"
         android:label="@string/title_perfil"
         tools:layout="@layout/fragment_perfil" />
+    <!--
+    <fragment
+        android:id="@+id/navigation_historial"
+        android:name="com.idnp_trabajo_final.views.PerfilFragment"
+        android:label="Mi historial"
+        tools:layout="@layout/fragment_lista_recorridos" />
+        -->
 </navigation>

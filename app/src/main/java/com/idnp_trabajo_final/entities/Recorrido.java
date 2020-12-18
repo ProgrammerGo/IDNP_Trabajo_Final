@@ -1,6 +1,8 @@
 package com.idnp_trabajo_final.entities;
 
-public class Recorrido   {
+import java.io.Serializable;
+
+public class Recorrido implements Serializable {
     private Integer id;
     private Integer modo;
     private Integer usuario;
@@ -16,6 +18,19 @@ public class Recorrido   {
         this.tiempo = tiempo;
         this.distancia = distancia;
     }
+
+    @Override
+    public String toString() {
+        return "Recorrido{" +
+                "id=" + id +
+                ", modo=" + modo +
+                ", usuario=" + usuario +
+                ", fecha='" + fecha + '\'' +
+                ", tiempo=" + tiempo +
+                ", distancia=" + distancia +
+                '}';
+    }
+
     public Recorrido (){
 
     }

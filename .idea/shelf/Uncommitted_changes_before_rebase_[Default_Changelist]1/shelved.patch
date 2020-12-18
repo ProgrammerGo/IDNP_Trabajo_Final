@@ -1,0 +1,581 @@
+Index: app/src/main/java/com/idnp_trabajo_final/utils/Constants.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.idnp_trabajo_final.utils;\n\npublic class Constants {\n    public static String KEY_ID =\"id\";\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/idnp_trabajo_final/utils/Constants.java	(revision b147a735bd6fc76b5856457bc421d55863dc53ea)
++++ app/src/main/java/com/idnp_trabajo_final/utils/Constants.java	(date 1607729664000)
+@@ -2,4 +2,5 @@
+ 
+ public class Constants {
+     public static String KEY_ID ="id";
++    public static boolean PORTRAIT=true;
+ }
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\n\nandroid {\n    compileSdkVersion 29\n    buildToolsVersion \"29.0.3\"\n\n    defaultConfig {\n        applicationId \"com.idnp_trabajo_final\"\n        minSdkVersion 23\n        targetSdkVersion 29\n        versionCode 1\n        versionName \"1.0\"\n\n        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\n        }\n    }\n}\n\ndependencies {\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\n   // implementation 'androidx.appcompat:appcompat:1.0.0'\n    implementation 'androidx.appcompat:appcompat:1.2.0'\n    //implementation 'com.google.android.material:material:1.0.0'\n    implementation 'com.google.android.material:material:1.2.1'\n    //implementation 'androidx.constraintlayout:constraintlayout:1.1.3'\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'\n   // implementation 'androidx.navigation:navigation-fragment:2.0.0-rc02'\n    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'//dar\n    implementation 'androidx.navigation:navigation-fragment:2.3.1'\n    //implementation 'androidx.navigation:navigation-ui:2.0.0-rc02'\n    implementation 'androidx.navigation:navigation-ui:2.3.1'\n    implementation 'androidx.wear:wear:1.0.0'\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\n    //  implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'\n    implementation 'androidx.lifecycle:lifecycle-livedata:2.2.0'\n    //implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'\n    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'\n    testImplementation 'junit:junit:4.12'\n    //androidTestImplementation 'androidx.test.ext:junit:1.1.1'\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\n    //androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\n    //implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'\n    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'\n    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'\n    compileOnly 'com.google.android.wearable:wearable:2.8.1'\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision b147a735bd6fc76b5856457bc421d55863dc53ea)
++++ app/build.gradle	(date 1607728309000)
+@@ -24,30 +24,19 @@
+ 
+ dependencies {
+     implementation fileTree(dir: "libs", include: ["*.jar"])
+-   // implementation 'androidx.appcompat:appcompat:1.0.0'
+-    implementation 'androidx.appcompat:appcompat:1.2.0'
+-    //implementation 'com.google.android.material:material:1.0.0'
+-    implementation 'com.google.android.material:material:1.2.1'
+-    //implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+-   // implementation 'androidx.navigation:navigation-fragment:2.0.0-rc02'
+-    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'//dar
+-    implementation 'androidx.navigation:navigation-fragment:2.3.1'
+-    //implementation 'androidx.navigation:navigation-ui:2.0.0-rc02'
+-    implementation 'androidx.navigation:navigation-ui:2.3.1'
++    implementation 'androidx.appcompat:appcompat:1.0.0'
++    implementation 'com.google.android.material:material:1.0.0'
++    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
++    implementation 'androidx.navigation:navigation-fragment:2.0.0-rc02'
++    implementation 'androidx.navigation:navigation-ui:2.0.0-rc02'
+     implementation 'androidx.wear:wear:1.0.0'
+     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+-    //  implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+-    implementation 'androidx.lifecycle:lifecycle-livedata:2.2.0'
+-    //implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
++    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
++    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+     testImplementation 'junit:junit:4.12'
+-    //androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+-    //androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+-    //implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
++    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
++    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
++    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
+     compileOnly 'com.google.android.wearable:wearable:2.8.1'
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/idnp_trabajo_final/views/RecorridoAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/idnp_trabajo_final/views/RecorridoAdapter.java	(date 1607729711000)
++++ app/src/main/java/com/idnp_trabajo_final/views/RecorridoAdapter.java	(date 1607729711000)
+@@ -0,0 +1,75 @@
++package com.idnp_trabajo_final.views;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.ImageView;
++import android.widget.TextView;
++
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.idnp_trabajo_final.entities.Recorrido;
++import com.idnp_trabajo_final.utils.Constants;
++
++import java.util.ArrayList;
++public class RecorridoAdapter extends RecyclerView.Adapter<RecorridoAdapter.RecorridosViewHolder> implements View.OnClickListener{
++    ArrayList<Recorrido> listaPersonajes;
++    private View.OnClickListener listener;
++
++    public RecorridoAdapter(ArrayList<Recorrido> listaPersonajes) {
++        this.listaPersonajes = listaPersonajes;
++    }
++
++    @Override
++    public RecorridosViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
++        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list,null,false);
++        RecyclerView.LayoutParams layParams = new RecyclerView.LayoutParams(
++                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
++        view.setLayoutParams(layParams);
++
++        view.setOnClickListener(this);
++
++        return new RecorridosViewHolder(view);
++    }
++
++    @Override
++    public void onBindViewHolder(RecorridosViewHolder holder, int position) {
++        holder.txtNombre.setText(listaPersonajes.get(position).getNombre());
++        if (Constants.PORTRAIT==true){
++            holder.txtInformacion.setText(listaPersonajes.get(position).getInfo());
++        }
++
++        holder.foto.setImageResource(listaPersonajes.get(position).getImagenId());
++    }
++
++    @Override
++    public int getItemCount() {
++        return listaPersonajes.size();
++    }
++
++    public void setOnClickListener(View.OnClickListener listener){
++        this.listener=listener;
++    }
++
++    @Override
++    public void onClick(View view) {
++        if (listener!=null){
++            listener.onClick(view);
++        }
++    }
++
++    public class RecorridosViewHolder extends RecyclerView.ViewHolder {
++        TextView txtNombre,txtInformacion;
++        ImageView foto;
++
++        public RecorridosViewHolder(View itemView) {
++            super(itemView);
++            txtNombre= (TextView) itemView.findViewById(R.id.idNombre);
++            if (Utilidades.PORTRAIT==true){
++                txtInformacion= (TextView) itemView.findViewById(R.id.idInfo);
++            }
++
++            foto= (ImageView) itemView.findViewById(R.id.idImagen);
++        }
++    }
++}
++}
+Index: app/src/main/java/com/idnp_trabajo_final/entities/Recorrido.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/idnp_trabajo_final/entities/Recorrido.java	(date 1607729577000)
++++ app/src/main/java/com/idnp_trabajo_final/entities/Recorrido.java	(date 1607729577000)
+@@ -0,0 +1,49 @@
++package com.idnp_trabajo_final.entities;
++
++public class Recorrido {
++    private Integer id;
++    private String fecha;
++    private Integer idUsuario;
++    private Integer idModo;
++
++    public Recorrido(Integer id, String fecha, Integer idUsuario, Integer idModo) {
++        this.id = id;
++        this.fecha = fecha;
++        this.idUsuario = idUsuario;
++        this.idModo = idModo;
++    }
++
++    public Integer getId() {
++        return id;
++    }
++
++    public void setId(Integer id) {
++        this.id = id;
++    }
++
++    public String getFecha() {
++        return fecha;
++    }
++
++
++
++    public void setFecha(String fecha) {
++        this.fecha = fecha;
++    }
++
++    public Integer getIdUsuario() {
++        return idUsuario;
++    }
++
++    public void setIdUsuario(Integer idUsuario) {
++        this.idUsuario = idUsuario;
++    }
++
++    public Integer getIdModo() {
++        return idModo;
++    }
++
++    public void setIdModo(Integer idModo) {
++        this.idModo = idModo;
++    }
++}
+Index: app/src/main/res/layout/item_list.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/item_list.xml	(date 1607728323000)
++++ app/src/main/res/layout/item_list.xml	(date 1607728323000)
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/item_list"
++    android:name="com.idnp_trabajo_final.views.ItemListFragment"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:layout_marginLeft="16dp"
++    android:layout_marginRight="16dp"
++    app:layoutManager="LinearLayoutManager"
++    tools:context=".ItemListActivity"
++    tools:listitem="@layout/item_list_content" />
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"PLATFORM\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"gradleJvm\" value=\"1.8\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision b147a735bd6fc76b5856457bc421d55863dc53ea)
++++ .idea/gradle.xml	(date 1607728323000)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: app/src/main/res/values/themes.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/themes.xml	(date 1607728323000)
++++ app/src/main/res/values/themes.xml	(date 1607728323000)
+@@ -0,0 +1,11 @@
++<resources>
++
++    <style name="AppTheme.NoActionBar">
++        <item name="windowActionBar">false</item>
++        <item name="windowNoTitle">true</item>
++    </style>
++
++    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
++
++    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
++</resources>
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    package=\"com.idnp_trabajo_final.views\">\n\n    <uses-permission android:name=\"android.permission.WAKE_LOCK\" />\n    <uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\"/>\n    <uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />\n    <uses-feature android:name=\"android.hardware.location.gps\" />\n    <application\n        android:allowBackup=\"true\"\n        android:icon=\"@mipmap/ic_launcher\"\n        android:label=\"Goo\"\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\n        android:supportsRtl=\"true\"\n        android:theme=\"@style/AppTheme\">\n        <meta-data\n            android:name=\"com.google.android.wearable.standalone\"\n            android:value=\"true\" />\n        <meta-data\n            android:name=\"preloaded_fonts\"\n            android:resource=\"@array/preloaded_fonts\" />\n\n        <activity\n            android:name=\".CallerActivity\"\n            android:label=\"@string/title_activity_caller\">\n\n        </activity>\n        <!--\n               Set to true if your app is Standalone, that is, it does not require the handheld\n               app to run.\n        -->\n        <activity\n            android:name=\".RegistrarActivity\"\n            android:label=\"Bienvenido !!!\" />\n        <activity android:name=\".PerfilActivity\" />\n        <activity android:name=\".BienvenidoActivity\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.MAIN\" />\n\n                <category android:name=\"android.intent.category.LAUNCHER\" />\n            </intent-filter>\n\n\n\n        </activity>\n        <activity\n            android:name=\".LoginActivity\"\n            android:label=\"Bienvenido de nuevo!!!\" />\n        <activity\n            android:name=\".EditarActivity\"\n            android:label=\"Editar usuario\" />\n\n\n    </application>\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision b147a735bd6fc76b5856457bc421d55863dc53ea)
++++ app/src/main/AndroidManifest.xml	(date 1607728390000)
+@@ -1,10 +1,11 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+     package="com.idnp_trabajo_final.views">
+-
+     <uses-permission android:name="android.permission.WAKE_LOCK" />
+-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
++
++    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
++    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
++
+     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+     <uses-feature android:name="android.hardware.location.gps" />
+     <application
+@@ -14,18 +15,19 @@
+         android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
+-        <meta-data
+-            android:name="com.google.android.wearable.standalone"
+-            android:value="true" />
++
++        <activity
++            android:name=".HistorialActivity"
++            android:label="@string/title_activity_historial">
++        </activity>
++
+         <meta-data
+             android:name="preloaded_fonts"
+             android:resource="@array/preloaded_fonts" />
+ 
+         <activity
+             android:name=".CallerActivity"
+-            android:label="@string/title_activity_caller">
+-
+-        </activity>
++            android:label="@string/title_activity_caller" />
+         <!--
+                Set to true if your app is Standalone, that is, it does not require the handheld
+                app to run.
+@@ -53,4 +55,5 @@
+ 
+ 
+     </application>
++
+ </manifest>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" default=\"true\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision b147a735bd6fc76b5856457bc421d55863dc53ea)
++++ .idea/misc.xml	(date 1607728323000)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\nbuildscript {\n    repositories {\n        google()\n        jcenter()\n    }\n    dependencies {\n        classpath \"com.android.tools.build:gradle:4.0.1\"\n\n        // NOTE: Do not place your application dependencies here; they belong\n        // in the individual module build.gradle files\n    }\n}\n\nallprojects {\n    repositories {\n        google()\n        jcenter()\n    }\n}\n\ntask clean(type: Delete) {\n    delete rootProject.buildDir\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision b147a735bd6fc76b5856457bc421d55863dc53ea)
++++ build.gradle	(date 1607728308000)
+@@ -5,7 +5,7 @@
+         jcenter()
+     }
+     dependencies {
+-        classpath "com.android.tools.build:gradle:4.0.1"
++        classpath 'com.android.tools.build:gradle:4.1.0'
+ 
+         // NOTE: Do not place your application dependencies here; they belong
+         // in the individual module build.gradle files
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\n    <string name=\"app_name\">IDNP_Trabajo_Final</string>\n    <string name=\"action_settings\">Settings</string>\n    <!-- Strings used for fragments for navigation -->\n    <string name=\"first_fragment_label\">First Fragment</string>\n    <string name=\"second_fragment_label\">Second Fragment</string>\n    <string name=\"next\">Next</string>\n    <string name=\"previous\">Previous</string>\n\n    <string name=\"hello_first_fragment\">Hello first fragment</string>\n    <string name=\"hello_second_fragment\">Hello second fragment. Arg: %1$s</string>\n    <string name=\"title_activity_bienvenido\">BienvenidoActivity</string>\n    <!--\n    This string is used for square devices and overridden by hello_world in\n    values-round/strings.xml for round devices.\n    -->\n    <string name=\"hello_world\">Hello Square World!</string>\n    <string name=\"title_activity_login\">LoginActivity</string>\n    <string name=\"title_activity_perfil\">PerfilActivity</string>\n    <string name=\"title_activity_registar\">RegistarActivity</string>\n\n    <!--Barra-->\n    <string name=\"title_entrenamiento\">Entrenar</string>\n    <string name=\"title_mapa\">Mapa</string>\n    <string name=\"title_estadisticas\">Estadisticas</string>\n    <string name=\"title_musica\">Musica</string>\n    <string name=\"title_perfil\">Mi perfil</string>\n    <string name=\"title_activity_caller\">CallerActivity</string>\n    <!-- TODO: Remove or change this placeholder text -->\n    <string name=\"hello_blank_fragment\">Hello blank fragment</string>\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision b147a735bd6fc76b5856457bc421d55863dc53ea)
++++ app/src/main/res/values/strings.xml	(date 1607728323000)
+@@ -28,4 +28,7 @@
+     <string name="title_activity_caller">CallerActivity</string>
+     <!-- TODO: Remove or change this placeholder text -->
+     <string name="hello_blank_fragment">Hello blank fragment</string>
++    <string name="title_item_list">Items</string>
++    <string name="title_item_detail">Item Detail</string>
++    <string name="title_activity_historial">HistorialActivity</string>
+ </resources>
+\ No newline at end of file
+Index: app/src/main/java/com/idnp_trabajo_final/views/HistorialActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/idnp_trabajo_final/views/HistorialActivity.java	(date 1607728323000)
++++ app/src/main/java/com/idnp_trabajo_final/views/HistorialActivity.java	(date 1607728323000)
+@@ -0,0 +1,20 @@
++package com.idnp_trabajo_final.views;
++
++import android.os.Bundle;
++import android.widget.TextView;
++
++import androidx.appcompat.app.AppCompatActivity;
++
++public class HistorialActivity extends AppCompatActivity {
++
++    private TextView mTextView;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_historial);
++
++        mTextView = (TextView) findViewById(R.id.text);
++
++    }
++}
+\ No newline at end of file
+Index: app/src/main/res/values/dimens.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\n    <dimen name=\"fab_margin\">16dp</dimen>\n    <!--\n    Because the window insets on round devices are larger than 15dp, this padding only applies\n    to square screens.\n    -->\n    <dimen name=\"box_inset_layout_padding\">0dp</dimen>\n\n    <!--\n    This padding applies to both square and round screens. The total padding between the buttons\n    and the window insets is box_inset_layout_padding (above variable) on square screens and\n    inner_frame_layout_padding (below variable) on round screens.\n    -->\n    <dimen name=\"inner_frame_layout_padding\">5dp</dimen>\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/dimens.xml	(revision b147a735bd6fc76b5856457bc421d55863dc53ea)
++++ app/src/main/res/values/dimens.xml	(date 1607728323000)
+@@ -12,4 +12,7 @@
+     inner_frame_layout_padding (below variable) on round screens.
+     -->
+     <dimen name="inner_frame_layout_padding">5dp</dimen>
++    <dimen name="app_bar_height">200dp</dimen>
++    <dimen name="item_width">200dp</dimen>
++    <dimen name="text_margin">16dp</dimen>
+ </resources>
+\ No newline at end of file
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#Sat Oct 31 20:41:25 COT 2020\ndistributionBase=GRADLE_USER_HOME\ndistributionPath=wrapper/dists\nzipStoreBase=GRADLE_USER_HOME\nzipStorePath=wrapper/dists\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-6.1.1-all.zip\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- gradle/wrapper/gradle-wrapper.properties	(revision b147a735bd6fc76b5856457bc421d55863dc53ea)
++++ gradle/wrapper/gradle-wrapper.properties	(date 1607728323000)
+@@ -1,6 +1,6 @@
+-#Sat Oct 31 20:41:25 COT 2020
++#Fri Dec 11 16:42:41 PET 2020
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-6.1.1-all.zip
++distributionUrl=https\://services.gradle.org/distributions/gradle-6.5-all.zip
+Index: app/src/main/res/layout-w900dp/item_list.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout-w900dp/item_list.xml	(date 1607728323000)
++++ app/src/main/res/layout-w900dp/item_list.xml	(date 1607728323000)
+@@ -0,0 +1,37 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:layout_marginLeft="16dp"
++    android:layout_marginRight="16dp"
++    android:baselineAligned="false"
++    android:divider="?android:attr/dividerHorizontal"
++    android:orientation="horizontal"
++    android:showDividers="middle"
++    tools:context=".ItemListActivity">
++
++    <!--
++    This layout is a two-pane layout for the Items master/detail flow.
++    -->
++
++    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
++        xmlns:tools="http://schemas.android.com/tools"
++        android:id="@+id/item_list"
++        android:name="com.idnp_trabajo_final.views.ItemListFragment"
++        android:layout_width="@dimen/item_width"
++        android:layout_height="match_parent"
++        android:layout_marginLeft="16dp"
++        android:layout_marginRight="16dp"
++        app:layoutManager="LinearLayoutManager"
++        tools:context="com.idnp_trabajo_final.views.ItemListActivity"
++        tools:listitem="@layout/item_list_content" />
++
++    <FrameLayout
++        android:id="@+id/item_detail_container"
++        android:layout_width="0dp"
++        android:layout_height="match_parent"
++        android:layout_weight="3" />
++
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_historial.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_historial.xml	(date 1607728323000)
++++ app/src/main/res/layout/activity_historial.xml	(date 1607728323000)
+@@ -0,0 +1,23 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:padding="@dimen/box_inset_layout_padding"
++    tools:context=".HistorialActivity"
++    tools:deviceIds="wear">
++
++    <FrameLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:padding="@dimen/inner_frame_layout_padding">
++
++        <TextView
++            android:id="@+id/text"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="@string/hello_world" />
++
++    </FrameLayout>
++</androidx.wear.widget.BoxInsetLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/recor_list.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/recor_list.xml	(date 1607728323000)
++++ app/src/main/res/layout/recor_list.xml	(date 1607728323000)
+@@ -0,0 +1,54 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:card="http://schemas.android.com/apk/res-auto"
++    android:orientation="vertical"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:background="@android:color/white">
++
++    <androidx.cardview.widget.CardView android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_marginLeft="20dp"
++        android:layout_marginRight="20dp"
++        android:layout_marginBottom="10dp"
++        card:cardBackgroundColor="#dcddde">
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal">
++
++            <ImageView
++                android:id="@+id/idImagen"
++                android:layout_width="100dp"
++                android:layout_height="100dp"
++                android:src="@drawable/ic_baseline_directions_run_24"
++                android:layout_marginTop="15dp"
++                android:layout_marginRight="10dp"/>
++
++            <LinearLayout
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:orientation="vertical">
++
++                <TextView
++                    android:id="@+id/idNombre"
++                    android:layout_marginTop="10dp"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="Nombre"
++                    android:textSize="25sp"
++                    android:textStyle="bold" />
++
++                <TextView
++                    android:id="@+id/idInfo"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="Descripcion "
++                    android:layout_marginBottom="15dp"
++                    android:layout_marginRight="10dp"/>
++
++            </LinearLayout>
++        </LinearLayout>
++    </androidx.cardview.widget.CardView>
++</LinearLayout>
+\ No newline at end of file
