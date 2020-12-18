@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.idnp_trabajo_final.entities.Recorrido;
 import com.idnp_trabajo_final.entities.Usuario;
+import com.idnp_trabajo_final.utils.Utilidades;
 
 import java.util.ArrayList;
 
@@ -130,6 +131,8 @@ public class daoRecorrido {
                 "SET tiempo = " +time+
                 "WHERE id = "+id);
     }
-
+    public void onCrear(){
+        db.execSQL(Utilidades.create_tablaRecorrido);
+    }
 
 }

@@ -87,7 +87,7 @@ public class DetalleRecorridoFragment extends Fragment {
     public void asignarInformacion(Recorrido miRecorrido) {
         //imagenDetalle.setImageResource(miRecorrido.getImagenDetalle());
         textFecha.setText(miRecorrido.getFecha());
-        textModo.setText(miRecorrido.getModo());
+        textModo.setText(String.valueOf(miRecorrido.getModo()));
 
     }
 

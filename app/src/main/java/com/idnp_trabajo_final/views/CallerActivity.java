@@ -33,6 +33,11 @@ public class CallerActivity extends AppCompatActivity implements ListaRecorridos
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
         mTextView = (TextView) findViewById(R.id.text);
+        //
+        listaFragment=new ListaRecorridosFragment();
+        detalleFragment=new DetalleRecorridoFragment();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragment,listaFragment).commit();
     }
 
     @Override

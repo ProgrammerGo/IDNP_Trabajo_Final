@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,10 @@ import com.idnp_trabajo_final.dao.daoModo;
 import com.idnp_trabajo_final.dao.daoRecorrido;
 import com.idnp_trabajo_final.entities.Recorrido;
 import com.idnp_trabajo_final.utils.IComunicaFragments;
+import com.idnp_trabajo_final.utils.Utilidades;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -108,11 +111,15 @@ public class ListaRecorridosFragment extends Fragment {
 
     private void llenarListaRecorridos(View root) {
         dao=new daoRecorrido(getContext());
+//        dao.onCrear();
+
         dao.connect();
         dao.insertRecorrido(new Recorrido(1,2,"20/12/2020",54.3, 40));
         dao.insertRecorrido(new Recorrido(1,2,"20/13/2020",54.3, 40));
-
         listaRecorrido= dao.selectRecorrido();
+        Log.d("Prueba", "llenarListaRecorridos: "+ listaRecorrido.get(0).toString());
+        Log.d("Prueba", "llenarListaRecorridos: "+ listaRecorrido.get(1).toString());
+
         /*
         listaRecorrido.add(new Recorrido(getString(R.string.goku_nombre), getString(R.string.goku_descripcion_corta),
                 getString(R.string.goku_descripcion_Larga), R.drawable.goku_cara,R.drawable.goku_detalle));

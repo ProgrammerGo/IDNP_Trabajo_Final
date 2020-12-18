@@ -18,6 +18,19 @@ public class Recorrido implements Serializable {
         this.tiempo = tiempo;
         this.distancia = distancia;
     }
+
+    @Override
+    public String toString() {
+        return "Recorrido{" +
+                "id=" + id +
+                ", modo=" + modo +
+                ", usuario=" + usuario +
+                ", fecha='" + fecha + '\'' +
+                ", tiempo=" + tiempo +
+                ", distancia=" + distancia +
+                '}';
+    }
+
     public Recorrido (){
 
     }

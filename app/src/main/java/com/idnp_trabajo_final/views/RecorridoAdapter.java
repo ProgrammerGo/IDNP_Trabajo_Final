@@ -1,4 +1,5 @@
 package com.idnp_trabajo_final.views;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ public class RecorridoAdapter extends RecyclerView.Adapter<RecorridoAdapter.Reco
 
     @Override
     public RecorridosViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list,null,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recor_list,null,false);
         RecyclerView.LayoutParams layParams = new RecyclerView.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(layParams);
@@ -33,7 +34,8 @@ public class RecorridoAdapter extends RecyclerView.Adapter<RecorridoAdapter.Reco
 
     @Override
     public void onBindViewHolder(RecorridosViewHolder holder, int position) {
-        holder.txtModo.setText(listaRecorridos.get(position).getModo());
+        Log.d("Prueba holder", "onBindViewHolder: "+holder);
+        holder.txtModo.setText(String.valueOf(listaRecorridos.get(position).getModo()));
         holder.txtFecha.setText(listaRecorridos.get(position).getFecha());
         holder.txtDist.setText(Float.toString(listaRecorridos.get(position).getDistancia()));
         if (Constants.PORTRAIT==true){
