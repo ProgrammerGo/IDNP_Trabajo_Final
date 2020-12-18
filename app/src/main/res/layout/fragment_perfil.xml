@@ -14,7 +14,7 @@
         <TextView
             android:id="@+id/perWelcome"
             android:layout_width="match_parent"
-            android:layout_height="484dp"
+            android:layout_height="291dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="Hola Usuario"
@@ -23,7 +23,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="442dp"
+            android:layout_height="250dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
@@ -32,8 +32,8 @@
 
         <TextView
             android:id="@+id/regNombre"
-            android:layout_width="334dp"
-            android:layout_height="402dp"
+            android:layout_width="360dp"
+            android:layout_height="188dp"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
@@ -44,7 +44,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="97dp"
             android:orientation="horizontal">
 
             <TextView
@@ -69,7 +69,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="83dp"
+            android:layout_height="110dp"
             android:orientation="horizontal">
 
             <TextView
@@ -94,7 +94,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="329dp"
+            android:layout_height="168dp"
             android:orientation="vertical">
 
             <Button
@@ -104,12 +104,12 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="97dp"
+                android:layout_marginStart="101dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="95dp"
+                android:layout_marginEnd="91dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="257dp"
+                android:layout_marginBottom="102dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_rounded_gray"
                 android:text="Editar Usuario"
@@ -123,12 +123,12 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="99dp"
+                android:layout_marginStart="103dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="93dp"
+                android:layout_marginEnd="89dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="200dp"
+                android:layout_marginBottom="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_rounded_white"
                 android:text="Cerrar Sesión"

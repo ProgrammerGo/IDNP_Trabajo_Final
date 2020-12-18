@@ -29,5 +29,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Distancia"/>
+    <TextView
+        android:id="@+id/tiempoId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tiempo"/>
 
 </LinearLayout>

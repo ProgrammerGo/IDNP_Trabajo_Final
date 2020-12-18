@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.idnp_trabajo_final.dao.daoModo;
 import com.idnp_trabajo_final.entities.Recorrido;
 
 public class DetalleRecorridoFragment extends Fragment {
@@ -29,7 +30,8 @@ public class DetalleRecorridoFragment extends Fragment {
     TextView textModo;
     //ImageView textFecha;
     TextView textFecha;
-
+    TextView textDistancia;
+    TextView textTiempo;
     public DetalleRecorridoFragment() {
         // Required empty public constructor
     }
@@ -71,7 +73,8 @@ public class DetalleRecorridoFragment extends Fragment {
         textModo= (TextView) vista.findViewById(R.id.modoId);
         //imagenDetalle= (ImageView) vista.findViewById(R.id.fechaId);
         textFecha= (TextView) vista.findViewById(R.id.fechaId);
-
+        textDistancia= (TextView)vista.findViewById(R.id.distanciaId);
+        textTiempo = (TextView)vista.findViewById(R.id.tiempoId);
         Bundle objetoRecorrido=getArguments();
         Recorrido miRecorrido=null;
         if (objetoRecorrido != null) {
@@ -86,9 +89,12 @@ public class DetalleRecorridoFragment extends Fragment {
 
     public void asignarInformacion(Recorrido miRecorrido) {
         //imagenDetalle.setImageResource(miRecorrido.getImagenDetalle());
+        daoModo dao= new daoModo(getContext());
+        dao.connect();
+        textDistancia.setText(String.valueOf(miRecorrido.getDistancia()));
         textFecha.setText(miRecorrido.getFecha());
-        textModo.setText(String.valueOf(miRecorrido.getModo()));
-
+        textModo.setText(dao.getModoById(miRecorrido.getModo()).getNombre());
+        textTiempo.setText(String.valueOf(miRecorrido.getTiempo()));
     }
 
     // TODO: Rename method, update argument and hook method into UI event

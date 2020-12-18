@@ -84,7 +84,10 @@ public class ListaRecorridosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista=inflater.inflate(R.layout.fragment_lista_recorridos, container, false);
-
+        configView(vista);
+        return vista;
+    }
+    public void configView(View vista){
         listaRecorrido=new ArrayList<>();
         recyclerRecorridos= (RecyclerView) vista.findViewById(R.id.recyclerId);
         recyclerRecorridos.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -97,18 +100,14 @@ public class ListaRecorridosFragment extends Fragment {
         adapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),"Seleccion: "+
+                    Toast.makeText(getContext(),"Seleccion: "+
                         listaRecorrido.get(recyclerRecorridos.
                                 getChildAdapterPosition(view)).getFecha(),Toast.LENGTH_SHORT).show();
 
                 interfaceComunicaFragments.enviarRecorrido(listaRecorrido.get(recyclerRecorridos.getChildAdapterPosition(view)));
             }
         });
-
-
-        return vista;
     }
-
     private void llenarListaRecorridos(View root) {
         dao=new daoRecorrido(getContext());
 //        dao.onCrear();
@@ -119,29 +118,6 @@ public class ListaRecorridosFragment extends Fragment {
         listaRecorrido= dao.selectRecorrido();
         Log.d("Prueba", "llenarListaRecorridos: "+ listaRecorrido.get(0).toString());
         Log.d("Prueba", "llenarListaRecorridos: "+ listaRecorrido.get(1).toString());
-
-        /*
-        listaRecorrido.add(new Recorrido(getString(R.string.goku_nombre), getString(R.string.goku_descripcion_corta),
-                getString(R.string.goku_descripcion_Larga), R.drawable.goku_cara,R.drawable.goku_detalle));
-
-        listaRecorrido.add(new Recorrido(getString(R.string.gohan_nombre), getString(R.string.gohan_descripcion_corta),
-                getString(R.string.gohan_descripcion_Larga), R.drawable.gohan_cara,R.drawable.gohan_detalle));
-
-        listaRecorrido.add(new Recorrido(getString(R.string.goten_nombre), getString(R.string.goten_descripcion_corta),
-                getString(R.string.goten_descripcion_Larga), R.drawable.goten_cara,R.drawable.goten_detalle));
-
-        listaRecorrido.add(new Recorrido(getString(R.string.krilin_nombre), getString(R.string.krilin_descripcion_corta),
-                getString(R.string.krilin_descripcion_Larga), R.drawable.krilin_cara,R.drawable.krilin_detalle));
-
-        listaRecorrido.add(new Recorrido(getString(R.string.picoro_nombre), getString(R.string.picoro_descripcion_corta),
-                getString(R.string.picoro_descripcion_Larga), R.drawable.picoro_cara,R.drawable.picoro_detalle));
-
-        listaRecorrido.add(new Recorrido(getString(R.string.trunks_nombre), getString(R.string.trunks_descripcion_corta),
-                getString(R.string.trunks_descripcion_Larga), R.drawable.trunks_cara,R.drawable.trunks_detalle));
-
-        listaRecorrido.add(new Recorrido(getString(R.string.vegueta_nombre), getString(R.string.vegueta_descripcion_corta),
-                getString(R.string.vegueta_descripcion_Larga), R.drawable.vegueta_cara,R.drawable.vegueta_detalle));
-         */
     }
 
     // TODO: Rename method, update argument and hook method into UI event
