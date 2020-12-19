@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.Observer;
@@ -81,11 +82,11 @@ public class RegistrarActivity extends AppCompatActivity {
 
                 createNotification();
 
-                int idE= viewModel1.loginAnonimo(dao);
+                int idE= viewModel.loginAnonimo(dao);
                 Toast toast=Toast.makeText(RegistrarActivity.this,text, Toast.LENGTH_SHORT);
                 toast.show();
                 if(idE!=-1){
-                    Intent i2= new Intent(RegistrarActivity.this,PerfilActivity.class);
+                    Intent i2= new Intent(RegistrarActivity.this, CallerActivity.class);
                     i2.putExtra("Id",idE);
                     startActivity(i2);
                     finish();

@@ -22,5 +22,13 @@ public class RegistrarUseCase {
             return "Usuario ya registrado!";
         }
     }
+    public static int loginAnonimo(daoUsuario dao) {
+        Usuario ua = new Usuario();
+        boolean ins = dao.insertUsuario(ua);
+        dao.connect();
+        Usuario u = dao.getUsuario("", "");
+        return u.getId();
+
+    }
 
 }
