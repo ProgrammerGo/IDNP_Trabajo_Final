@@ -34,7 +34,8 @@ public class EstadisticasUseCase {
         respuestas[1]= nueva2();
         respuestas[2]= nueva3();
         respuestas[3]= nueva4();
-        respuestas[4]= nueva5();
+        //respuestas[4]= nueva5();
+        Log.d("Prueba Esta", "HallarValores: "+ respuestas[1]);
         return respuestas;
     }
     public static double nueva() {

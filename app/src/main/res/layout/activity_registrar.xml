@@ -13,6 +13,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="Crear Cuenta"
+        android:textColor="@color/redG"
         android:textSize="20dp"
         android:textStyle="bold" />
 
@@ -23,6 +24,7 @@
         android:layout_marginRight="20dp"
         android:layout_weight="1"
         android:gravity="center"
+        android:textColor="#000"
         android:text="Por favor ingrese su infromación, no compartimos información con terceros. También puede continuar como anónimo" />
 
     <EditText
@@ -76,11 +78,11 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="91dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_rounded_gray"
+            android:background="@drawable/btn_rounded_red"
             android:text="Registrar"
             android:textColor="#ffff"
             android:textSize="15dp"
-            android:textStyle="bold" />
+             />
 
         <Button
             android:id="@+id/btnRegAnonimo"
@@ -96,9 +98,9 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="38dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_rounded_gray2"
+            android:background="@drawable/btn_rounded_blue2"
             android:text="Continuar como anónimo"
-            android:textColor="#000"
+            android:textColor="#fff"
             android:textSize="13dp" />
 
         <Button

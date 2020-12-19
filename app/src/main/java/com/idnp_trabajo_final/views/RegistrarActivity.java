@@ -97,7 +97,7 @@ public class RegistrarActivity extends AppCompatActivity {
         NotificationCompat.Builder builder= new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
         builder.setSmallIcon(R.drawable.ic_baseline_directions_run_24);
         builder.setContentTitle("Goo");
-        builder.setContentText("No te olvides de registrarte!!");
+        builder.setContentText("No olvides registrarte!!");
         builder.setColor(Color.BLACK);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         builder.setLights(Color.MAGENTA, 1000, 1000);

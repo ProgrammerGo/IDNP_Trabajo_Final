@@ -68,23 +68,6 @@ public class EstadisticasFragment extends Fragment {
         };
 
       mViewModel.getText().observe(getViewLifecycleOwner(), observer);
-        /* *************************************************************************** PAUSE*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /* *************************************************************************** */
         return root;
     }
     public void config(){
