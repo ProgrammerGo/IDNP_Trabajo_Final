@@ -28,14 +28,13 @@ public class EstadisticasUseCase {
     private static    SimpleDateFormat sdf;
     public static double[] HallarValores(View root2){
         root=root2;
-        Log.d("estadisticas", "Metodo HallarValores ");
+        Log.d("estadisticas2", "Metodo HallarValores ");
         respuestas= new double[5];
         respuestas[0]= nueva();
         respuestas[1]= nueva2();
         respuestas[2]= nueva3();
         respuestas[3]= nueva4();
-        //respuestas[4]= nueva5();
-        Log.d("Prueba Esta", "HallarValores: "+ respuestas[1]);
+        respuestas[4]= nueva5();
         return respuestas;
     }
     public static double nueva() {

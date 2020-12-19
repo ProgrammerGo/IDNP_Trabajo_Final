@@ -299,11 +299,11 @@ public class TunesFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tunes, container, false);
         listView = (ListView) view.findViewById(R.id.listView);
-        songNameText = (TextView) getActivity().findViewById(R.id.txtSongLabel);
-        pause = (Button) getActivity().findViewById(R.id.pause);
+//        songNameText = (TextView) getActivity().findViewById(R.id.txtSongLabel);
+      //  pause = (Button) getActivity().findViewById(R.id.pause);
         //previous = (Button) getActivity().findViewById(R.id.previous);
         //next = (Button) getActivity().findViewById(R.id.next);
-        sb=(SeekBar) getActivity().findViewById(R.id.seekBar);
+      //  sb=(SeekBar) getActivity().findViewById(R.id.seekBar);
         //sb=(SeekBar) view.findViewById(R.id.seekBar);
         display();
         return view;

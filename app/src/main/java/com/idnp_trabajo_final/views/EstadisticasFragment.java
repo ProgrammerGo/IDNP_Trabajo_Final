@@ -49,25 +49,26 @@ public class EstadisticasFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_estadisticas, container, false);
 
       config();
-      actualiza();
-        final Observer<double[]> observer = new Observer<double[]>() {
+     actualiza();
+     final Observer<double[]> observer = new Observer<double[]>() {
             @Override
             public void onChanged(double[] resultado) {
                 DecimalFormat format = new DecimalFormat("#########.###");
 
                 Log.d("estadisticas2", "AQUI "+resultado[0]);
-                Log.d("estadisticas2", "AQUI "+resultado[1]);
+             /*Log.d("estadisticas2", "AQUI "+resultado[1]);
                 Log.d("estadisticas2", "AQUI "+resultado[2]);
-                Log.d("estadisticas2", "AQUI "+resultado[3]);
-                distancia_ultimaSemana.setText(String.valueOf(format.format(resultado[0])));
-                distancia_ultimoMes.setText(String.valueOf(format.format(resultado[1])));
-                distancia_dia.setText(String.valueOf(format.format(resultado[2])));
-                totalmin.setText(format.format(resultado[3]));
-                prommindia.setText(format.format(resultado[4]));
+                Log.d("estadisticas2", "AQUI "+resultado[3]);*/
+                distancia_ultimaSemana.setText((format.format(resultado[0])));
+              distancia_ultimoMes.setText((format.format(resultado[1])));
+            distancia_dia.setText((format.format(resultado[2])));
+            totalmin.setText(format.format(resultado[3]));
+            prommindia.setText(format.format(resultado[4]));
             }
         };
 
       mViewModel.getText().observe(getViewLifecycleOwner(), observer);
+
         return root;
     }
     public void config(){
