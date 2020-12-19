@@ -114,8 +114,10 @@ public class ListaRecorridosFragment extends Fragment {
 //        dao.onCrear();
         PreferenceUtilsLog utils = new PreferenceUtilsLog();
         dao.connect();
+        /*
         dao.insertRecorrido(new Recorrido(1,2,"20/12/2020",54.3, 40));
         dao.insertRecorrido(new Recorrido(1,2,"20/13/2020",54.3, 40));
+         */
         int u =utils.getId(getContext());
         listaRecorrido= dao.selectRecorridobyUser(u);
         /*

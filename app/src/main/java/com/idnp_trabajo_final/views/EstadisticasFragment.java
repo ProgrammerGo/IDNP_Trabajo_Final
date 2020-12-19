@@ -93,6 +93,7 @@ public class EstadisticasFragment extends Fragment {
         distancia_dia=  root.findViewById(R.id.kmdiaprom);
         totalmin=root.findViewById(R.id.totalmin);
         prommindia=root.findViewById(R.id.prommindia);
+
         btnVer=root.findViewById(R.id.btnVer);
         btnVer.setOnClickListener(new View.OnClickListener() {
             @Override
